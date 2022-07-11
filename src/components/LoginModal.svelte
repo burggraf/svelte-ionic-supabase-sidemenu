@@ -1,4 +1,6 @@
 <script lang="ts">
+  import SupabaseAuthService from "$services/supabase.auth.service";
+
   import { modalController } from "$ionic/svelte";
   import ProviderSignInButton from "$components/ProviderSignInButton.svelte";
   import { IonLoading } from "@ionic/core/components/ion-loading";
@@ -27,7 +29,13 @@
   console.log("Received providers", providers);
   console.log("Received SUPABASE_KEY", SUPABASE_KEY);
   console.log("Received SUPABASE_URL", SUPABASE_URL);
-  
+  let supabaseAuthService: SupabaseAuthService;
+	if (!supabaseAuthService) {
+		supabaseAuthService = 
+            SupabaseAuthService.getInstance(
+                SUPABASE_URL, SUPABASE_KEY);
+	}
+
   const logoColors: any = {
     "google": "rgb(227,44,41)",
     "facebook": "rgb(59,89,152)",
@@ -70,8 +78,26 @@
   const resetPassword = () => {
     console.log('NOT IMPLEMENTED');
   }
-  const signInWithEmail = ()=> {
-    console.log('NOT IMPLEMENTED');
+  const signInWithEmail = async ()=> {
+    console.log('signInWithEmail...');
+        showLoading = true;
+
+        const {user, session, error} = 
+        await supabaseAuthService.signInWithEmail(email, password);
+        if (error) { showLoading = false; console.error(error.message); }
+
+        else { 
+            // window.location.href = '/';
+            console.log('error', error);
+            console.log('user', user);
+            console.log('session', session);
+            showLoading = false;
+            showModal = false;
+            modalController.dismiss({ data: Date.now() });
+            // if (onSignIn) {
+            //     onSignIn(user, session);
+            // }
+         }
   }
   const signUp = () => {
     console.log('NOT IMPLEMENTED');
