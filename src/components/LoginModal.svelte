@@ -1,9 +1,22 @@
 <script lang="ts">
   import { modalController } from "$ionic/svelte";
+  import ProviderSignInButton from "$components/ProviderSignInButton.svelte";
+  import { IonLoading } from "@ionic/core/components/ion-loading";
+  const defineComponent = (tagName: string, customElement: any) => {
+    if (typeof customElements === "undefined") return;
 
+    if (!customElements.get(tagName)) {
+        customElements.define(tagName, customElement);
+    }
+};
+
+  defineComponent("ion-loading", IonLoading);
+
+  const SUPABASE_URL = '';
+  const SUPABASE_KEY = '';
   import {
     mailOutline,
-    closeOutline,
+    //closeOutline,
     personAdd,
     lockOpenOutline,
     lockClosedOutline,
@@ -11,11 +24,26 @@
     link
   } from "ionicons/icons";
 
-  export let firstName = undefined;
-  export let lastName = undefined;
-  export let middleInitial = undefined;
-
-  console.log("Received props", firstName, lastName, middleInitial);
+  export let providers: string[] = [];  
+  console.log("Received props", providers);
+  const logoColors: any = {
+    "google": "rgb(227,44,41)",
+    "facebook": "rgb(59,89,152)",
+    "spotify": "rgb(36,203,75)",
+    "twitter": "rgb(30,135,235)",
+    "apple": "gray",
+    "slack": "rgb(221,157,35)",
+    "twitch": "rgb(120,34,244)",            
+    "discord": "rgb(116,131,244)",
+    "github": "rgb(0,0,0)",
+    "bitbucket": "rgb(56,98,169)",
+    "gitlab": "rgb(209,44,30)",
+    "azure": "rgb(228,54,26)",
+    //"linkedin": "rgb(3,47,84)",
+    "linkedin": "rgb(2,119,181)",
+    "zoom": "rgb(45,140,255)",
+    "notion": window.matchMedia('(prefers-color-scheme: dark)').matches ? 'gray' : 'black',
+  }
 
   const closeOverlay = () => {
     modalController.dismiss({ data: Date.now() });
@@ -48,13 +76,13 @@
   }
   const toggleSignUpMode = () => {
     signUpMode = !signUpMode;
+    console.log('signUpMode', signUpMode);
   }
   const sendMagicLink = () => {
     console.log('NOT IMPLEMENTED');
   }
   let email = '';
   let password = '';
-  let providers: string[] = [];
   let showModal = false;
   let backdropDismiss = true;
   let localUser: any = {};
@@ -125,7 +153,7 @@
                   slot="start" size="large" color="medium"></ion-icon>
                   </ion-input> 
               </ion-item>
-              <div onClick={resetPassword} 
+              <div on:click={resetPassword} 
                     class="ion-text-right" 
                     style="padding-top:10px">
                   <ion-label><b>Forgot password?</b></ion-label>
@@ -144,11 +172,11 @@
               <ion-col>
                   <ion-button expand="block" color="primary"
                   disabled={!validateEmail(email) || password.length < 6}
-                  onClick={signInWithEmail}>
+                  on:click={signInWithEmail}>
                       <ion-icon icon={arrowForwardOutline} size="large" />&nbsp;&nbsp;
                       <b>Sign in with email</b>
                   </ion-button>
-                  <div onClick={toggleSignUpMode} 
+                  <div on:click={toggleSignUpMode} 
                       class="ion-text-center" 
                       style="padding-top:10px">
                       <ion-label>Don't have an account? <b>Sign Up</b></ion-label>
@@ -161,10 +189,10 @@
               <ion-col>
                       <ion-button expand="block" 
                       disabled={!validateEmail(email) || password.length < 6}
-                      onClick={signUp}>
+                      on:click={signUp}>
                       <ion-icon icon={personAdd} size="large" />&nbsp;&nbsp;
                       <b>Sign Up</b></ion-button>
-                      <div onClick={toggleSignUpMode} 
+                      <div on:click={toggleSignUpMode} 
                       class="ion-text-center" 
                       style="padding-top:10px">
                       <ion-label>Already have an account? <b>Sign In</b></ion-label>
@@ -179,7 +207,7 @@
               </div>
               <ion-button expand="block" 
               disabled={!validateEmail(email) || password.length > 0}
-              onClick={sendMagicLink}>
+              on:click={sendMagicLink}>
               <ion-icon icon={link} size="large" />&nbsp;&nbsp;
               <b>Send Sign In Link</b></ion-button>                    
           </ion-col>
@@ -194,7 +222,11 @@
       <ion-row>
           <ion-col>
               {#each providers as provider}
-                  <!-- <ProviderSignInButton SUPABASE_URL={SUPABASE_URL} SUPABASE_KEY={SUPABASE_KEY} key={`provider-${provider}`} name={provider} color={logoColors[provider] || 'black'} /> -->
+                  <ProviderSignInButton 
+                    SUPABASE_URL={SUPABASE_URL} 
+                    SUPABASE_KEY={SUPABASE_KEY} 
+                    name={provider} 
+                    color={logoColors[provider] || 'black'} />
               {/each}
       </ion-col>
       </ion-row>
