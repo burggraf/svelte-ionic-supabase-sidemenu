@@ -27,3 +27,4 @@ dist-ssr
 firebase.json
 package-lock.json
 .history
+.env*

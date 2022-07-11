@@ -11,9 +11,9 @@
 };
 
   defineComponent("ion-loading", IonLoading);
-
-  const SUPABASE_URL = '';
-  const SUPABASE_KEY = '';
+  export let providers: string[] = [];  
+  export let SUPABASE_KEY: string = "";
+  export let SUPABASE_URL: string = "";
   import {
     mailOutline,
     //closeOutline,
@@ -24,8 +24,10 @@
     link
   } from "ionicons/icons";
 
-  export let providers: string[] = [];  
-  console.log("Received props", providers);
+  console.log("Received providers", providers);
+  console.log("Received SUPABASE_KEY", SUPABASE_KEY);
+  console.log("Received SUPABASE_URL", SUPABASE_URL);
+  
   const logoColors: any = {
     "google": "rgb(227,44,41)",
     "facebook": "rgb(59,89,152)",
