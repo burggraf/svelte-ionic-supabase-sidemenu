@@ -13,11 +13,13 @@
     settings
   } from "ionicons/icons";
   import { onMount } from "svelte";
+  import Login from "$components/login.svelte";
+//import Login from "$components/Login.svelte";
 
   const appPages = [
     { title: "Test", url: "/test", icon: settings },
     { title: "Test2", url: "/test2", icon: mail },
-    { title: "Login2", url: "/login", icon: mail },
+    // { title: "Login2", url: "/login", icon: mail },
 
   ];
   const labels = ["Family", "Friends", "Notes", "Work", "Travel", "Reminders"];
@@ -38,6 +40,9 @@
     <ion-list id="inbox-list">
       <ion-list-header>Inbox</ion-list-header>
       <ion-note>hi@ionicframework.com</ion-note>
+
+      <Login />
+
       {#each appPages as p, i}
         <ion-menu-toggle auto-hide="false">
           <ion-item

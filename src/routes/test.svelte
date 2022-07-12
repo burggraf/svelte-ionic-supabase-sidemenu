@@ -1,7 +1,7 @@
 <script lang="ts">
     // import { params } from "@roxi/routify";
-    import TestComponent from "$components/TestComponent.svelte";
-$components/Login.svelte
+    //import TestComponent from "$components/TestComponent.svelte";
+//$components/Login.svelte
     // $:folder = $params.folder;
   </script>
   

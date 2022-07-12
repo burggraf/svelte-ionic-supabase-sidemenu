@@ -18,7 +18,8 @@ export default class SupabaseAuthService {
   static getInstance(SUPABASE_URL?: string, SUPABASE_KEY?: string, profileTable?: string, profileKey?: string) {
     SupabaseAuthService.profileTable = profileTable || '';
     SupabaseAuthService.profileKey = profileKey || '';
-    if (this.myInstance == null) {
+    if (this.myInstance === null) {
+      console.log('INITIALIZING SUPASE AUTH SERVICE INSTANCE');
       if (SUPABASE_URL && SUPABASE_KEY) {
         this.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
         this.myInstance = new this();
@@ -84,8 +85,10 @@ export default class SupabaseAuthService {
       SupabaseAuthService.profileListeners[i].func(user);
     }
   }
+
   constructor() {
     // Try to recover our user session
+    console.log('constructor here');
     this.loadUser();
     SupabaseAuthService.subscription = SupabaseAuthService.supabase.auth.onAuthStateChange(async (event, session) => {
         if (event === 'SIGNED_IN' && session) {
@@ -99,12 +102,15 @@ export default class SupabaseAuthService {
         }  
         this.loadProfile();
       });  
+
   }
 
   // ************** auth ****************
 
   private async loadUser() {
+    console.log('loadUser');
     const user = SupabaseAuthService.supabase.auth.user();
+    console.log('loadUser: user: ', user);
     if (user) {
       this._user = user;
       SupabaseAuthService.user.next(user);
