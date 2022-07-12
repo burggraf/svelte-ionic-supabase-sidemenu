@@ -1,9 +1,12 @@
 <script lang="ts">
   import SupabaseAuthService from "$services/supabase.auth.service";
-
-  import { modalController } from "$ionic/svelte";
+  import { modalController, toastController } from "$ionic/svelte";
   import ProviderSignInButton from "$components/ProviderSignInButton.svelte";
   import { IonLoading } from "@ionic/core/components/ion-loading";
+  export let providers: string[] = [];  
+  export let SUPABASE_KEY: string = "";
+  export let SUPABASE_URL: string = "";
+
   const defineComponent = (tagName: string, customElement: any) => {
     if (typeof customElements === "undefined") return;
 
@@ -13,9 +16,13 @@
 };
 
   defineComponent("ion-loading", IonLoading);
-  export let providers: string[] = [];  
-  export let SUPABASE_KEY: string = "";
-  export let SUPABASE_URL: string = "";
+  let supabaseAuthService: SupabaseAuthService;
+	if (!supabaseAuthService) {
+		supabaseAuthService = 
+            SupabaseAuthService.getInstance(
+                SUPABASE_URL, SUPABASE_KEY);
+	}
+
   import {
     mailOutline,
     //closeOutline,
@@ -29,12 +36,19 @@
   console.log("Received providers", providers);
   console.log("Received SUPABASE_KEY", SUPABASE_KEY);
   console.log("Received SUPABASE_URL", SUPABASE_URL);
-  let supabaseAuthService: SupabaseAuthService;
-	if (!supabaseAuthService) {
-		supabaseAuthService = 
-            SupabaseAuthService.getInstance(
-                SUPABASE_URL, SUPABASE_KEY);
-	}
+
+  const toast = async (message: string, color: string = 'danger', duration: number = 3000) => {
+
+    const toast = await toastController.create({
+      message: message,
+      color: color,
+      cssClass: "toast", // BUG
+      position: "top",
+      buttons: [{ icon: 'close', handler: () => {console.log('dismiss')} }],
+      duration: duration
+    });
+    await toast.present();
+  }
 
   const logoColors: any = {
     "google": "rgb(227,44,41)",
@@ -73,18 +87,24 @@
   // };
 
   const validateEmail = (email: string) => {
-    return true;
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
   }
-  const resetPassword = () => {
-    console.log('NOT IMPLEMENTED');
-  }
+  const resetPassword = async () => {
+    showLoading = true;
+        const {/*data,*/ error} = 
+            await supabaseAuthService.resetPassword(email);
+            if (error) { showLoading = false;toast(error.message) }
+            else { showLoading = false;toast('Please check your email for a password reset link', 'success') }
+        }
+  
   const signInWithEmail = async ()=> {
     console.log('signInWithEmail...');
         showLoading = true;
 
         const {user, session, error} = 
         await supabaseAuthService.signInWithEmail(email, password);
-        if (error) { showLoading = false; console.error(error.message); }
+        if (error) { showLoading = false; toast(error.message); }
 
         else { 
             // window.location.href = '/';

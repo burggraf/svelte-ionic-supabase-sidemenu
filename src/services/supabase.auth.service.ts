@@ -198,6 +198,32 @@ export default class SupabaseAuthService {
     }
     return { error };
   }
+
+  public checkForPasswordResetToken = () => {
+    const hash = window.location.hash;
+    let token = "";
+    // console.log('hash', hash);
+    if (hash && hash.substring(0,1) === '#') {
+        const tokens = hash.substring(1).split('&');
+        const entryPayload: any = {};
+        tokens.map((token) => {
+            const pair = (token + '=').split('=');
+            entryPayload[pair[0]] = pair[1];
+        });
+        // console.log('entryPayload', entryPayload);
+        if (entryPayload?.type === 'recovery') { // password recovery link
+            // return `/resetpassword/${entryPayload.access_token}`;
+            // token = entryPayload.access_token;
+            token = entryPayload.access_token;
+            // console.log('token was set to:', entryPayload.access_token);
+        } else {
+          // console.log('token was not set entryPayload:', entryPayload);
+        }          
+    } else {
+      // console.log('no hash was found');
+    }  
+    return token;
+  }
 }
 
 export { SupabaseAuthService };//, User };

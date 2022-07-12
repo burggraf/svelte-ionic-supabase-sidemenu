@@ -2,16 +2,11 @@
   import LoginModal from "$components/LoginModal.svelte";
   import { modalController } from "$ionic/svelte";
   import IonPage from "$ionic/svelte/components/IonPage.svelte";
-  import {
-    closeOutline,
-    lockOpenOutline,
-    lockClosedOutline
-  } from "ionicons/icons";
   const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
   const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
 
-  const showModalController = async () => {
-    const modal = await modalController.create({
+  const openLoginBox = async () => {
+    const openLoginModalController = await modalController.create({
       component: LoginModal,
       componentProps: {
         providers: providers,
@@ -23,21 +18,14 @@
       backdropDismiss: true,
     });
 
-    modal.onDidDismiss().then((value) => {
+    openLoginModalController.onDidDismiss().then((value) => {
       console.log("Dismissed the modal", value);
       if (value.role === "backdrop") console.log("Backdrop clicked");
     });
 
-    await modal.present();
+    await openLoginModalController.present();
   };
-  // let email = '';
-  // let password = '';
   let providers: string[] = ['google', 'facebook', 'twitter'];
-  // let showModal = false;
-  // let backdropDismiss = true;
-  // let localUser: any = {};
-  // let showLoading = false;
-
 </script>
 
 <svelte:head>
@@ -50,16 +38,14 @@
       <ion-buttons slot="start">
         <ion-menu-button />
       </ion-buttons>
-      <!-- <ion-buttons slot="end">
-      </ion-buttons> -->
       <ion-title>Login</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content class="ion-padding">
 
-    <ion-button strong expand="block" on:click={showModalController}>
-      Show modal - via controller
+    <ion-button strong expand="block" on:click={openLoginBox}>
+      Login
     </ion-button>
 
   </ion-content>
