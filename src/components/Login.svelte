@@ -5,10 +5,22 @@
     import { onMount } from "svelte";
     import SupabaseAuthService from "$services/supabase.auth.service";
     import { User } from '@supabase/supabase-js';
-    // import IonPage from "$ionic/svelte/components/IonPage.svelte";
-    const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
-    const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
+    export let SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+    export let SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
+    export let profileFunction: Function = () => {};
+    export let providers: string[] = [];
+    export let onSignIn: Function = () => {};
+    export let onSignOut: Function = () => {};
+    export let profileTable: string = '';
+    export let profileKey: string = '';
+
     let supabaseAuthService: SupabaseAuthService;
+/*
+    backdropDismiss = false, setUser,
+    profileFunction, providers, onSignIn, onSignOut, SUPABASE_URL, SUPABASE_KEY,
+    profileTable, profileKey
+
+*/
 
     let localUser: User | null = null;
     onMount(() => {
@@ -26,16 +38,23 @@
     });
 
     const openProfile = async () => {
-        console.log('openProfile NOT IMPLEMENTED');
+        if (profileFunction) {
+          //console.log('profileFunction', profileFunction);
+          console.log('profileTable', profileTable);
+          console.log('profileKey', profileKey);
+            profileFunction();
+        } else {
+            console.log('openProfile: no profileFunction');
+        }
     }
 	const signOut = async () => {
 		const { error } = await supabaseAuthService.signOut()
 		if (error) {
 			console.error('Error signing out', error)
 		} else {
-            // if (onSignOut) {
-            //     onSignOut();
-            // }
+            if (onSignOut) {
+                onSignOut();
+            }
             window.location.reload();
         }
 	}
@@ -47,7 +66,7 @@
           providers: providers,
           SUPABASE_URL: SUPABASE_URL,
           SUPABASE_KEY: SUPABASE_KEY,
-  
+          onSignIn: onSignIn,
         },
         showBackdrop: true,
         backdropDismiss: true,
@@ -60,11 +79,10 @@
   
       await openLoginModalController.present();
     };
-    let providers: string[] = ['google', 'facebook', 'twitter'];
   </script>
     
   {#if localUser}
-  <div style={{width: '100%'}}>
+  <div class="fullWidth">
     <ion-button fill='outline' color='dark'
         on:click={openProfile}
         size='small' expand='block' strong>
@@ -77,7 +95,7 @@
     </ion-button>
     </div>
   {:else}
-  <div style={{width: '100%'}}>
+  <div class="fullWidth">
     <ion-button fill='outline' color='dark'
         on:click={openLoginBox}
         size='small' expand='block' strong>
@@ -86,3 +104,8 @@
     </div>
 {/if}
   
+<style>
+  .fullWidth {
+    width: 100%;
+  }
+</style>

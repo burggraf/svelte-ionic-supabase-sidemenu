@@ -6,6 +6,7 @@
   export let providers: string[] = [];  
   export let SUPABASE_KEY: string = "";
   export let SUPABASE_URL: string = "";
+  export let onSignIn: Function = () => {};
 
   const defineComponent = (tagName: string, customElement: any) => {
     if (typeof customElements === "undefined") return;
@@ -114,9 +115,9 @@
             showLoading = false;
             showModal = false;
             modalController.dismiss({ data: Date.now() });
-            // if (onSignIn) {
-            //     onSignIn(user, session);
-            // }
+            if (onSignIn) {
+                onSignIn(user, session);
+            }
          }
   }
   const signUp = () => {

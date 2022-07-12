@@ -41,7 +41,12 @@
       <ion-list-header>Inbox</ion-list-header>
       <ion-note>hi@ionicframework.com</ion-note>
 
-      <Login />
+      <Login 
+        providers={["google", "facebook", "twitter"]} 
+        profileFunction={() => {
+          console.log('do some profileFunction here');
+        }}
+      />
 
       {#each appPages as p, i}
         <ion-menu-toggle auto-hide="false">
