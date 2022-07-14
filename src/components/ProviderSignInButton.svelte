@@ -1,6 +1,7 @@
 <script lang="ts">
 import SupabaseAuthService from "$services/supabase.auth.service";
 import type { Provider } from "@supabase/supabase-js";
+import { toast } from '$services/toast';
 
 // import { Provider } from '@supabase/supabase-js'
 
@@ -97,7 +98,7 @@ let supabaseAuthService: SupabaseAuthService;
 		const { user, session, error } = 
         await supabaseAuthService.signInWithProvider(provider as Provider);
 		if (error) {
-			//toast(error.message);
+			toast(error.message);
 			console.log(error.message);
 			showLoading = false;
 		} else {

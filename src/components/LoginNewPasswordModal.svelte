@@ -1,7 +1,9 @@
 <script lang="ts">
   import SupabaseAuthService from "$services/supabase.auth.service";
-  import { modalController, toastController } from "$ionic/svelte";
+  import { modalController } from "$ionic/svelte";
   import ProviderSignInButton from "$components/ProviderSignInButton.svelte";
+  import { toast } from '$services/toast';
+
   import { IonLoading } from "@ionic/core/components/ion-loading";
   export let SUPABASE_KEY: string = "";
   export let SUPABASE_URL: string = "";
@@ -36,18 +38,6 @@
   console.log("Received SUPABASE_KEY", SUPABASE_KEY);
   console.log("Received SUPABASE_URL", SUPABASE_URL);
 
-  const toast = async (message: string, color: string = 'danger', duration: number = 3000) => {
-
-    const toast = await toastController.create({
-      message: message,
-      color: color,
-      cssClass: "toast", // BUG
-      position: "top",
-      buttons: [{ icon: 'close', handler: () => {console.log('dismiss')} }],
-      duration: duration
-    });
-    await toast.present();
-  }
 
   const closeOverlay = () => {
     modalController.dismiss({ data: Date.now() });

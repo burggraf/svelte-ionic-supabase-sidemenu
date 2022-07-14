@@ -4,6 +4,9 @@ http://ionicframework.com/docs/theming/ */
   text-transform: capitalize;
   letter-spacing: 0;
 }
+.toast {
+  font-weight: bold;
+}
 /** Ionic CSS Variables **/
 :root {
      /*  tailored elements */
