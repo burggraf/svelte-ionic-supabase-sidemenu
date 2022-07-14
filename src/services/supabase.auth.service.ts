@@ -19,7 +19,6 @@ export default class SupabaseAuthService {
     SupabaseAuthService.profileTable = profileTable || '';
     SupabaseAuthService.profileKey = profileKey || '';
     if (this.myInstance === null) {
-      console.log('INITIALIZING SUPASE AUTH SERVICE INSTANCE');
       if (SUPABASE_URL && SUPABASE_KEY) {
         this.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
         this.myInstance = new this();
