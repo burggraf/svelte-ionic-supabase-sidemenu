@@ -38,8 +38,8 @@
 <ion-menu content-id="main" menu-id="mainmenu">
   <ion-content class="ion-padding">
     <ion-list id="inbox-list">
-      <ion-list-header>Inbox</ion-list-header>
-      <ion-note>hi@ionicframework.com</ion-note>
+      <ion-list-header>Menu</ion-list-header>
+      <ion-note>tagline</ion-note>
 
       <Login 
         providers={["google", "facebook", "twitter"]} 

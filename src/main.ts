@@ -2,8 +2,7 @@ import App from './App.svelte'
 
 import { setupIonicSvelte } from '$ionic/svelte';
 
-
-setupIonicSvelte();
+setupIonicSvelte({ mode: 'ios' });
 
 // if the page was prerendered, we want to remove the prerendered html
 document.querySelector('[data-routify]')?.remove()

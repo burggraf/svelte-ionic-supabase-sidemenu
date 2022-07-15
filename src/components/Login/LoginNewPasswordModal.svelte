@@ -26,7 +26,7 @@
 
   import {
     mailOutline,
-    //closeOutline,
+    closeOutline,
     personAdd,
     lockOpenOutline,
     lockClosedOutline,
@@ -70,8 +70,12 @@
 <ion-header translucent="true">
   <ion-toolbar>
     <ion-title>Reset Password</ion-title>
-    <ion-buttons slot="end">
-      <ion-button on:click={closeOverlay}>Close</ion-button>
+    <ion-buttons slot="start">
+      <ion-button on:click={closeOverlay}>
+        <ion-icon 
+        icon={closeOutline} 
+        slot="start" size="large" color="medium"></ion-icon>
+        </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>

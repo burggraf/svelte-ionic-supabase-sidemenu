@@ -27,7 +27,7 @@
 
   import {
     mailOutline,
-    //closeOutline,
+    closeOutline,
     personAdd,
     lockOpenOutline,
     lockClosedOutline,
@@ -134,9 +134,12 @@
 </svelte:head>
 <ion-header translucent="true">
   <ion-toolbar>
-    <ion-title>Modal Content</ion-title>
-    <ion-buttons slot="end">
-      <ion-button on:click={closeOverlay}>Close</ion-button>
+    <ion-title>Sign In</ion-title>
+    <ion-buttons slot="start">
+      <ion-icon 
+      on:click={closeOverlay}
+      icon={closeOutline} 
+      slot="start" size="large" color="medium"></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
