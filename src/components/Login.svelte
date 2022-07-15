@@ -57,7 +57,7 @@
 				//console.log('token', token)
 				setTimeout(() => {
 					openPasswordResetBox()
-				}, 4000)
+				}, 2500)
 				// console.log('token was set to:', entryPayload.access_token);
 			} else {
 				//console.log('token was not set entryPayload:', entryPayload)

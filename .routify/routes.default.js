@@ -91,20 +91,6 @@ export default {
     },
     {
       "meta": {},
-      "id": "_default_login_svelte",
-      "name": "login",
-      "module": () => import('../src/routes/login.svelte'),
-      "file": {
-        "path": "src/routes/login.svelte",
-        "dir": "src/routes",
-        "base": "login.svelte",
-        "ext": ".svelte",
-        "name": "login"
-      },
-      "children": []
-    },
-    {
-      "meta": {},
       "id": "_default_redirect_svelte",
       "name": "redirect",
       "module": () => import('../src/routes/redirect.svelte'),
