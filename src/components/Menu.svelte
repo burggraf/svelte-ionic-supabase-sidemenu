@@ -13,7 +13,7 @@
     settings
   } from "ionicons/icons";
   import { onMount } from "svelte";
-  import Login from "$components/login.svelte";
+  import Login from "$components/Login/Login.svelte";
 //import Login from "$components/Login.svelte";
 
   const appPages = [

@@ -1,7 +1,7 @@
 <script lang="ts">
 	console.log('Login.svelte component mounted')
-	import LoginModal from '$components/LoginModal.svelte'
-  import LoginNewPasswordModal from '$components/LoginNewPasswordModal.svelte'
+	import LoginModal from '$components/Login/LoginModal.svelte'
+  import LoginNewPasswordModal from '$components/Login/LoginNewPasswordModal.svelte'
 	import { modalController } from '$ionic/svelte'
 	import { onMount } from 'svelte'
 	import SupabaseAuthService from '$services/supabase.auth.service'

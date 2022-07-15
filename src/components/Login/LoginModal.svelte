@@ -1,7 +1,7 @@
 <script lang="ts">
   import SupabaseAuthService from "$services/supabase.auth.service";
   import { modalController } from "$ionic/svelte";
-  import LoginProviderSignInButton from "$components/LoginProviderSignInButton.svelte";
+  import LoginProviderSignInButton from "$components/Login/LoginProviderSignInButton.svelte";
   import { IonLoading } from "@ionic/core/components/ion-loading";
   import { toast } from '$services/toast';
   export let providers: string[] = [];  
