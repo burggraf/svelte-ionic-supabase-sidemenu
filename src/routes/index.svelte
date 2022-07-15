@@ -6,7 +6,7 @@
 </script>
 
 <svelte:head>
-  <title>Root</title>
+  <title>Landing Page</title>
 </svelte:head>
 
 <IonPage>
@@ -15,13 +15,13 @@
       <ion-buttons slot="start">
         <ion-menu-button />
       </ion-buttons>
-      <ion-title>Root</ion-title>
+      <ion-title>Landing Page</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <ion-content class="ion-padding">
 
-    root
+    Landing Page Here...
 
   </ion-content>
 </IonPage>
