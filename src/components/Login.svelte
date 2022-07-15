@@ -29,7 +29,7 @@
 		console.log('AAA onMount, subscribe to user')
 		SupabaseAuthService.user.subscribe((user: User | null) => {
 			localUser = user
-			console.log('LOGIN subscribed: user', user)
+			//console.log('LOGIN subscribed: user', user)
 		})
 		if (!supabaseAuthService) {
 			console.log('load supabaseAuthService service')

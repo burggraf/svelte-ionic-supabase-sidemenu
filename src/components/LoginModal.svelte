@@ -1,7 +1,7 @@
 <script lang="ts">
   import SupabaseAuthService from "$services/supabase.auth.service";
   import { modalController } from "$ionic/svelte";
-  import ProviderSignInButton from "$components/ProviderSignInButton.svelte";
+  import LoginProviderSignInButton from "$components/LoginProviderSignInButton.svelte";
   import { IonLoading } from "@ionic/core/components/ion-loading";
   import { toast } from '$services/toast';
   export let providers: string[] = [];  
@@ -260,7 +260,7 @@
       <ion-row>
           <ion-col>
               {#each providers as provider}
-                  <ProviderSignInButton 
+                  <LoginProviderSignInButton 
                     SUPABASE_URL={SUPABASE_URL} 
                     SUPABASE_KEY={SUPABASE_KEY} 
                     name={provider} 

@@ -1,7 +1,6 @@
 <script lang="ts">
   import SupabaseAuthService from "$services/supabase.auth.service";
   import { modalController } from "$ionic/svelte";
-  import ProviderSignInButton from "$components/ProviderSignInButton.svelte";
   import { toast } from '$services/toast';
 
   import { IonLoading } from "@ionic/core/components/ion-loading";
