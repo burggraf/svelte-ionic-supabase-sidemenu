@@ -15,20 +15,6 @@ export default {
   "routifyDir": import.meta.url,
   "children": [
     {
-      "meta": {},
-      "id": "_default_Modal_svelte",
-      "name": "Modal",
-      "module": () => import('../src/routes/Modal.svelte'),
-      "file": {
-        "path": "src/routes/Modal.svelte",
-        "dir": "src/routes",
-        "base": "Modal.svelte",
-        "ext": ".svelte",
-        "name": "Modal"
-      },
-      "children": []
-    },
-    {
       "meta": {
         "dynamic": true
       },

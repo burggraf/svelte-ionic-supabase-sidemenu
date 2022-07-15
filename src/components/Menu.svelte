@@ -3,13 +3,7 @@
   import { goto } from "@roxi/routify";
   import { /*getIonicMenu,*/ menuController, registerMenu } from "$ionic/svelte";
   import {
-    bookmarkOutline,
-    paperPlane,
-    heart,
     mail,
-    archive,
-    trash,
-    warning,
     settings
   } from "ionicons/icons";
   import { onMount } from "svelte";
@@ -41,13 +35,15 @@
       <ion-list-header>Menu</ion-list-header>
       <ion-note>tagline</ion-note>
 
+      <ion-menu-toggle auto-hide="false">
       <Login 
         providers={["google", "facebook", "twitter"]} 
         profileFunction={() => {
           console.log('do some profileFunction here');
         }}
       />
-
+      </ion-menu-toggle>  
+      
       {#each appPages as p, i}
         <ion-menu-toggle auto-hide="false">
           <ion-item
