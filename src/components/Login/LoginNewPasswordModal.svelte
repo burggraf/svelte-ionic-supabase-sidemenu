@@ -3,7 +3,8 @@
   import { modalController } from "$ionic/svelte";
   import { toast } from '$services/toast';
 
-  import { IonLoading } from "@ionic/core/components/ion-loading";
+  import { loadingBox } from "$services/loadingMessage";
+
   export let SUPABASE_KEY: string = "";
   export let SUPABASE_URL: string = "";
   export let token: string = "";
@@ -16,7 +17,6 @@
     }
 };
 
-  defineComponent("ion-loading", IonLoading);
   let supabaseAuthService: SupabaseAuthService;
 	if (!supabaseAuthService) {
 		supabaseAuthService = 
@@ -50,13 +50,15 @@
   let password = '';
   let showModal = false;
   let backdropDismiss = false;
-  let showLoading = false;
 
   const updatePassword = async () => {
+    const loader = await loadingBox('Updating password...');
+
         const { /*data,*/ error }  = 
             await supabaseAuthService.updatePassword(token, password);
-        if (error) { toast(error.message) }
+        if (error) { loader.dismiss();toast(error.message) }
         else { 
+            loader.dismiss();
             toast("Password updated", 'success', 3000);
             closeOverlay();
         }
@@ -77,7 +79,6 @@
 </ion-header>
 
 <!-- <ion-content class="ion-padding"> -->
-  <ion-loading is-open={showLoading} message={'Loading'} />
   <ion-grid class="ion-padding" style="max-width:375px">
       <ion-row>
           <ion-col>

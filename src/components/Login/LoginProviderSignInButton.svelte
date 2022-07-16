@@ -2,6 +2,7 @@
 import SupabaseAuthService from "$services/supabase.auth.service";
 import type { Provider } from "@supabase/supabase-js";
 import { toast } from '$services/toast';
+import { loadingBox } from "$services/loadingMessage";
 
 // import { Provider } from '@supabase/supabase-js'
 
@@ -9,7 +10,6 @@ export let name: string;
 // export let color: string;
 export let SUPABASE_URL: string;
 export let SUPABASE_KEY: string;
-let showLoading = false;
 const logoColors: any = {
     "google": "rgb(227,44,41)",
     "facebook": "rgb(59,89,152)",
@@ -95,12 +95,15 @@ let supabaseAuthService: SupabaseAuthService;
                 SUPABASE_URL, SUPABASE_KEY);
 	}
 	const signInWithProvider = async (provider: Provider) => {
+        const loader = await loadingBox(`Contacting ${provider}...`);
+
 		const { /*user, session,*/ error } = 
         await supabaseAuthService.signInWithProvider(provider as Provider);
 		if (error) {
+            loader.dismiss();
 			toast(error.message);
-			showLoading = false;
 		} else {
+            // loader.dismiss();
 			// *** we can't get here becuase of the third-party redirect...
             // console.log('user', user);
             // console.log('session', session);
@@ -121,7 +124,6 @@ let supabaseAuthService: SupabaseAuthService;
 	// 	})
 	// }
 </script>    
-		<ion-loading isOpen={showLoading} message='Loading' />
 		<ion-button
 			fill='clear'
 			class='round-button'
