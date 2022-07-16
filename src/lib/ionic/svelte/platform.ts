@@ -206,7 +206,7 @@ export const backButtonSubscribeWithPriority = (handler: () => {}, priority: num
     if (typeof document !== "undefined") document.addEventListener('ionBackButton', (ev: any) => {
         ev.detail.register(priority, () => {
             handler();
-            console.log('Handler was called!');
+            // console.log('Handler was called!');
         });
     });
 }

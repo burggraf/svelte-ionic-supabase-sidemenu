@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte'
 	const init = async () => {
 		const params = new URLSearchParams(window.location.search)
-		console.log('params:', params)
+		// console.log('params:', params)
 		const client = new PocketBase('http://localhost:8090')
 		const redirectUrl = 'http://localhost:8100/redirect'
 		const provider = JSON.parse(localStorage.getItem('provider') || '{}')
@@ -17,7 +17,7 @@
 			redirectUrl
 		)
 			.then((authData) => {
-				console.log('authData', authData)
+				//console.log('authData', authData)
 				window.location.href = '/login'
 			})
 			.catch((err) => {
@@ -26,7 +26,7 @@
 	}
 
 	onMount(() => {
-		console.log('onMount')
+		//console.log('onMount')
 		init()
 	})
 </script>

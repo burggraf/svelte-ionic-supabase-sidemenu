@@ -34,10 +34,6 @@
     link
   } from "ionicons/icons";
 
-  console.log("Received SUPABASE_KEY", SUPABASE_KEY);
-  console.log("Received SUPABASE_URL", SUPABASE_URL);
-
-
   const closeOverlay = () => {
     modalController.dismiss({ data: Date.now() });
   };

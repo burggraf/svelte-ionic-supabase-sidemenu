@@ -87,7 +87,7 @@ export default class SupabaseAuthService {
 
   constructor() {
     // Try to recover our user session
-    console.log('constructor here');
+    //console.log('constructor here');
     this.loadUser();
     SupabaseAuthService.subscription = SupabaseAuthService.supabase.auth.onAuthStateChange(async (event, session) => {
         if (event === 'SIGNED_IN' && session) {
@@ -107,9 +107,9 @@ export default class SupabaseAuthService {
   // ************** auth ****************
 
   private async loadUser() {
-    console.log('loadUser');
+    //console.log('loadUser');
     const user = SupabaseAuthService.supabase.auth.user();
-    console.log('loadUser: user: ', user);
+    //console.log('loadUser: user: ', user);
     if (user) {
       this._user = user;
       SupabaseAuthService.user.next(user);
@@ -147,9 +147,11 @@ export default class SupabaseAuthService {
   }
 
   public signUpWithEmail = async (email: string, password: string) => {
+    console.log('signUpWithEmail', email, password);
+    console.log('redirectTo', window.location.origin);
     const { user, session, error } = await SupabaseAuthService.supabase.auth.signUp({
-      email: email,
-      password: password,
+      email,
+      password
     },{
       redirectTo: window.location.origin // .origin
     });
@@ -182,6 +184,7 @@ export default class SupabaseAuthService {
   }
 
   public sendMagicLink = async (email: string) => {
+    console.log('sendMagicLink: ', email);
     const { user, session, error } = await SupabaseAuthService.supabase.auth.signIn({
       email: email
     }, {

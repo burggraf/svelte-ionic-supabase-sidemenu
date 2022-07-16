@@ -23,7 +23,7 @@ const openModal = async (modalComponent: SvelteComponent, formData: {}) => {
     });
 
     popover.onDidDismiss().then((value) => {
-      console.log("Dismissed the popover", value);
+      // console.log("Dismissed the popover", value);
       if (value.role === "backdrop") console.log("Backdrop clicked");
     });
 

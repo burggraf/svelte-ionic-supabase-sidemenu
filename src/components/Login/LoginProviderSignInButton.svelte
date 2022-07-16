@@ -95,17 +95,16 @@ let supabaseAuthService: SupabaseAuthService;
                 SUPABASE_URL, SUPABASE_KEY);
 	}
 	const signInWithProvider = async (provider: Provider) => {
-		const { user, session, error } = 
+		const { /*user, session,*/ error } = 
         await supabaseAuthService.signInWithProvider(provider as Provider);
 		if (error) {
 			toast(error.message);
-			console.log(error.message);
 			showLoading = false;
 		} else {
 			// *** we can't get here becuase of the third-party redirect...
-            console.log('user', user);
-            console.log('session', session);
-            console.log('error', error);
+            // console.log('user', user);
+            // console.log('session', session);
+            // console.log('error', error);
 		}
 	}
 	// const [present, dismiss] = useIonToast()

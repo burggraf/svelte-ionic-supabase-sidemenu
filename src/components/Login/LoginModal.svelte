@@ -35,9 +35,9 @@
     link
   } from "ionicons/icons";
 
-  console.log("Received providers", providers);
-  console.log("Received SUPABASE_KEY", SUPABASE_KEY);
-  console.log("Received SUPABASE_URL", SUPABASE_URL);
+//   console.log("Received providers", providers);
+//   console.log("Received SUPABASE_KEY", SUPABASE_KEY);
+//   console.log("Received SUPABASE_URL", SUPABASE_URL);
 
 
   const logoColors: any = {
@@ -89,18 +89,17 @@
         }
   
   const signInWithEmail = async ()=> {
-    console.log('signInWithEmail...');
         showLoading = true;
 
         const {user, session, error} = 
         await supabaseAuthService.signInWithEmail(email, password);
-        if (error) { showLoading = false; toast(error.message); }
-
-        else { 
+        if (error) { 
+            showLoading = false; toast(error.message); 
+        } else { 
             // window.location.href = '/';
-            console.log('error', error);
-            console.log('user', user);
-            console.log('session', session);
+            // console.log('error', error);
+            // console.log('user', user);
+            // console.log('session', session);
             showLoading = false;
             showModal = false;
             modalController.dismiss({ data: Date.now() });
@@ -109,15 +108,35 @@
             }
          }
   }
-  const signUp = () => {
-    console.log('NOT IMPLEMENTED');
-  }
+
+  const signUp = async () => {
+    showLoading = true;
+    const {/*user, session,*/ error} = 
+        await supabaseAuthService.signUpWithEmail(email, password);
+        if (error) { 
+            console.error(error); 
+            showLoading = false;
+            toast(error.message) }
+        else { 
+            showLoading = false;
+            toast('Please check your email for a confirmation link', 'success') 
+        }
+    }
   const toggleSignUpMode = () => {
     signUpMode = !signUpMode;
-    console.log('signUpMode', signUpMode);
   }
-  const sendMagicLink = () => {
-    console.log('NOT IMPLEMENTED');
+  const sendMagicLink = async () => {
+        showLoading = true;
+        const {/*user, session,*/ error} = 
+            await supabaseAuthService.sendMagicLink(email);
+            if (error) { 
+                showLoading = false;
+                toast(error.message) }
+            else { 
+                //setShowLoading(false);
+                showLoading = false;
+                toast('Please check your email for a sign in link', 'success') 
+            }
   }
   let email = '';
   let password = '';

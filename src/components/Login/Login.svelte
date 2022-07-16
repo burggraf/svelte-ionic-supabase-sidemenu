@@ -1,5 +1,4 @@
 <script lang="ts">
-	console.log('Login.svelte component mounted')
 	import LoginModal from '$components/Login/LoginModal.svelte'
   import LoginNewPasswordModal from '$components/Login/LoginNewPasswordModal.svelte'
 	import { modalController } from '$ionic/svelte'
@@ -26,13 +25,11 @@
 	let localUser: User | null = null
 	onMount(() => {
     checkHash();
-		console.log('AAA onMount, subscribe to user')
 		SupabaseAuthService.user.subscribe((user: User | null) => {
 			localUser = user
 			//console.log('LOGIN subscribed: user', user)
 		})
 		if (!supabaseAuthService) {
-			console.log('load supabaseAuthService service')
 			supabaseAuthService = SupabaseAuthService.getInstance(SUPABASE_URL, SUPABASE_KEY)
 		}
 	})
@@ -69,11 +66,11 @@
   const openProfile = async () => {
 		if (profileFunction) {
 			//console.log('profileFunction', profileFunction);
-			console.log('profileTable', profileTable)
-			console.log('profileKey', profileKey)
+			// console.log('profileTable', profileTable)
+			// console.log('profileKey', profileKey)
 			profileFunction()
 		} else {
-			console.log('openProfile: no profileFunction')
+			// console.log('openProfile: no profileFunction')
 		}
 	}
 	const signOut = async () => {
@@ -88,7 +85,6 @@
 		}
 	}
 	const openLoginBox = async () => {
-		console.log('openLoginBox')
 		const openLoginModalController = await modalController.create({
 			component: LoginModal,
 			componentProps: {
@@ -102,14 +98,14 @@
 		})
 
 		openLoginModalController.onDidDismiss().then((value) => {
-			console.log('Dismissed the modal', value)
-			if (value.role === 'backdrop') console.log('Backdrop clicked')
+			if (value.role === 'backdrop') {
+				// console.log('Backdrop clicked')
+			}
 		})
 
 		await openLoginModalController.present()
 	}
 	const openPasswordResetBox = async () => {
-		console.log('openPasswordResetBox')
 		const openPasswordResetModalController = await modalController.create({
 			component: LoginNewPasswordModal,
 			componentProps: {
@@ -122,7 +118,6 @@
 		})
 
 		openPasswordResetModalController.onDidDismiss().then((value) => {
-			console.log('Dismissed the modal', value)
 			if (value.role === 'backdrop') console.log('Backdrop clicked')
 		})
 
