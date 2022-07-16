@@ -2,8 +2,9 @@
   import SupabaseAuthService from "$services/supabase.auth.service";
   import { modalController } from "$ionic/svelte";
   import LoginProviderSignInButton from "$components/Login/LoginProviderSignInButton.svelte";
-  import { IonLoading } from "@ionic/core/components/ion-loading";
+
   import { toast } from '$services/toast';
+  import { loadingBox } from "$services/loadingMessage";
   export let providers: string[] = [];  
   export let SUPABASE_KEY: string = "";
   export let SUPABASE_URL: string = "";
@@ -17,7 +18,6 @@
     }
 };
 
-  defineComponent("ion-loading", IonLoading);
   let supabaseAuthService: SupabaseAuthService;
 	if (!supabaseAuthService) {
 		supabaseAuthService = 
@@ -81,26 +81,22 @@
     return re.test(String(email).toLowerCase());
   }
   const resetPassword = async () => {
-    showLoading = true;
-        const {/*data,*/ error} = 
+    const loader = await loadingBox('Requesting password reset link...');
+    const {/*data,*/ error} = 
             await supabaseAuthService.resetPassword(email);
-            if (error) { showLoading = false;toast(error.message) }
-            else { showLoading = false;toast('Please check your email for a password reset link', 'success') }
+            if (error) { loader.dismiss();toast(error.message) }
+            else { loader.dismiss();toast('Please check your email for a password reset link', 'success') }
         }
   
   const signInWithEmail = async ()=> {
-        showLoading = true;
-
+        const loader = await loadingBox('Logging in...');
+        console.log('loader', loader);
         const {user, session, error} = 
         await supabaseAuthService.signInWithEmail(email, password);
         if (error) { 
-            showLoading = false; toast(error.message); 
+            loader.dismiss();
         } else { 
-            // window.location.href = '/';
-            // console.log('error', error);
-            // console.log('user', user);
-            // console.log('session', session);
-            showLoading = false;
+            loader.dismiss();
             showModal = false;
             modalController.dismiss({ data: Date.now() });
             if (onSignIn) {
@@ -110,15 +106,15 @@
   }
 
   const signUp = async () => {
-    showLoading = true;
+    const loader = await loadingBox('Signing you up...');
     const {/*user, session,*/ error} = 
         await supabaseAuthService.signUpWithEmail(email, password);
         if (error) { 
             console.error(error); 
-            showLoading = false;
+            loader.dismiss();
             toast(error.message) }
         else { 
-            showLoading = false;
+            loader.dismiss();
             toast('Please check your email for a confirmation link', 'success') 
         }
     }
@@ -126,15 +122,15 @@
     signUpMode = !signUpMode;
   }
   const sendMagicLink = async () => {
-        showLoading = true;
+    const loader = await loadingBox('Requesting magic link...');
         const {/*user, session,*/ error} = 
             await supabaseAuthService.sendMagicLink(email);
             if (error) { 
-                showLoading = false;
+                loader.dismiss();
                 toast(error.message) }
             else { 
                 //setShowLoading(false);
-                showLoading = false;
+                loader.dismiss();
                 toast('Please check your email for a sign in link', 'success') 
             }
   }
@@ -143,7 +139,6 @@
   let showModal = false;
   let backdropDismiss = true;
   let localUser: any = {};
-  let showLoading = false;
   let signUpMode = false;
 
 </script>
@@ -164,7 +159,6 @@
 </ion-header>
 
 <!-- <ion-content class="ion-padding"> -->
-  <ion-loading is-open={showLoading} message={'Loading'} />
   <ion-grid class="ion-padding" style="max-width:375px">
       <ion-row>
           <ion-col>
