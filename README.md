@@ -1,5 +1,25 @@
 
-<h1 align="center"> Ionic Svelte Demo - SIDEMENU</h1> <br>
+
+
+<h1 align="center">Svelte Ionic Supabase Sidemenu</h1> <br>
+# Setup
+## Required environment variables:
+
+`VITE_SUPABASE_URL` (https://app.supabase.com/project/_/settings/api: see Project URL)
+
+`VITE_SUPABASE_KEY` (https://app.supabase.com/project/_/settings/api: see Project API keys / Anon / Public)
+
+### Local Development
+Create a file called `.env` in the root of your project.
+
+I.e.:
+VITE_SUPABASE_URL=https://xxxxxxxxxxxxxxxxxxxx.supabase.co
+VITE_SUPABASE_KEY=[project_anon_key_here]
+
+
+
+<h2>BASED ON</h2>
+<h1 align="center">Ionic Svelte Demo - SIDEMENU</h1> <br>
 <p align="center">
   <a href="https://ionicsvelte.firebaseapp.com">
     <img alt="IonicSvelte" title="IonicSvelte" src="https://github.com/Tommertom/svelte-ionic-app/raw/main/src/static/assets/svelte-ionic-vite.png" width="350">
