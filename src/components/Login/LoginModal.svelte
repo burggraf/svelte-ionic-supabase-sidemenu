@@ -2,10 +2,11 @@
   import SupabaseAuthService from "$services/supabase.auth.service";
   import { modalController } from "$ionic/svelte";
   import LoginProviderSignInButton from "$components/Login/LoginProviderSignInButton.svelte";
+  import type { Provider } from "@supabase/supabase-js";
 
   import { toast } from '$services/toast';
   import { loadingBox } from "$services/loadingMessage";
-  export let providers: string[] = [];  
+  export let providers: Provider[] = [];  
   export let SUPABASE_KEY: string = "";
   export let SUPABASE_URL: string = "";
   export let onSignIn: Function = () => {};

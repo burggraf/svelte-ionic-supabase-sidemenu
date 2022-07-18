@@ -6,7 +6,7 @@ import { loadingBox } from "$services/loadingMessage";
 
 // import { Provider } from '@supabase/supabase-js'
 
-export let name: string;
+export let name: Provider;
 // export let color: string;
 export let SUPABASE_URL: string;
 export let SUPABASE_KEY: string;
@@ -60,9 +60,9 @@ import {
     logoLinkedin as linkedin,
     logoMicrosoft as azure,
     logoMicrosoft as microsoft,
-    // spotify: 'node_modules/ionic-react-supabase-login/dist/spotify.svg', // logoSpotify,
-	// notion: 'node_modules/ionic-react-supabase-login/dist/notion.svg', // logoNotion,
-	// zoom: 'node_modules/ionic-react-supabase-login/dist/zoom.svg', // logoZoom,
+    //spotify: 'spotify.svg', // logoSpotify,
+	//notion: 'node_modules/ionic-react-supabase-login/dist/notion.svg', // logoNotion,
+	//zoom: 'node_modules/ionic-react-supabase-login/dist/zoom.svg', // logoZoom,
   } from "ionicons/icons";
 
   const icons = {
@@ -80,14 +80,11 @@ import {
     "linkedin": linkedin,
     "azure": azure,
     "microsoft": microsoft,
-    // "spotify": spotify,
-    // "notion": notion,
-    // "zoom": zoom,
+    "spotify": "./assets/spotify.svg",
+    "notion": "./assets/notion.svg",
+    "zoom": "./assets/zoom.svg",
   };
   
-
-//import logoZoom from './zoom.svg'
-
 let supabaseAuthService: SupabaseAuthService;
 	if (!supabaseAuthService) {
 		supabaseAuthService = 
@@ -105,24 +102,8 @@ let supabaseAuthService: SupabaseAuthService;
 		} else {
             // loader.dismiss();
 			// *** we can't get here becuase of the third-party redirect...
-            // console.log('user', user);
-            // console.log('session', session);
-            // console.log('error', error);
 		}
 	}
-	// const [present, dismiss] = useIonToast()
-
-	// const toast = (message: string, color: string = 'danger') => {
-	// 	present({
-	// 		color: color,
-	// 		message: message,
-	// 		cssClass: 'toast',
-	// 		buttons: [{ icon: 'close', handler: () => dismiss() }],
-	// 		duration: 3000,
-	// 		//onDidDismiss: () => console.log('dismissed'),
-	// 		//onWillDismiss: () => console.log('will dismiss'),
-	// 	})
-	// }
 </script>    
 		<ion-button
 			fill='clear'
@@ -131,10 +112,10 @@ let supabaseAuthService: SupabaseAuthService;
 			on:click={() => {
 				signInWithProvider(name)
 			}}>
-			{#if (name.startsWith('node_modules'))}
+			{#if (name.startsWith('./assets'))}
 				<ion-icon src={name}  size='large' slot="icon-only" />	
 			{/if}
-			{#if (!name.startsWith('node_modules'))}
+			{#if (!name.startsWith('./assets'))}
 				<ion-icon 
                     icon={icons[name]} 
                     style='color: {logoColors[name] || 'black'}'
@@ -152,13 +133,12 @@ let supabaseAuthService: SupabaseAuthService;
         --ion-BOXSHADOW: 5px 5px 15px 5px rgba(255,255,255,0.25);
         }
     }  
-
-    .flex-child {
-        margin: 2% 5% 2%
-    }  
-
     .round-button {
         --border-radius: 50%;
         --box-shadow: var(--ion-BOXSHADOW);
     }
+    /* .flex-child {
+        margin: 2% 5% 2%
+    }   */
+
 </style>

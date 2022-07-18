@@ -33,7 +33,7 @@
 
 			<ion-menu-toggle auto-hide="false">
 				<Login
-					providers={['google', 'facebook', 'twitter']}
+					providers={['google', 'facebook', 'twitter', 'notion', 'spotify', 'zoom']}
 					profileFunction={() => {
 						//console.log('do some profileFunction here')
 					}}

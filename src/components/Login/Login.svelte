@@ -4,15 +4,15 @@
 	import { modalController } from '$ionic/svelte'
 	import { onMount } from 'svelte'
 	import SupabaseAuthService from '$services/supabase.auth.service'
-	import type { User } from '@supabase/supabase-js'
+	import type { User, Provider } from '@supabase/supabase-js'
 	export let SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
 	export let SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY
 	export let profileFunction: Function = () => {}
-	export let providers: string[] = []
+	export let providers: Provider[] = []
 	export let onSignIn: Function = () => {}
 	export let onSignOut: Function = () => {}
-	export let profileTable: string = ''
-	export let profileKey: string = ''
+	// export let profileTable: string = ''
+	// export let profileKey: string = ''
 	let token = ''
 	let supabaseAuthService: SupabaseAuthService
 	/*
