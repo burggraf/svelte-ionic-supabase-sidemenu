@@ -1,4 +1,5 @@
 <script lang="ts">
+	// THIS FILE IS FOR POCKETBASE
 	import PocketBase from 'pocketbase'
 	import { onMount } from 'svelte'
 	const init = async () => {
