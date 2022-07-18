@@ -5,8 +5,6 @@
 	import { onMount } from 'svelte'
 	import SupabaseAuthService from '$services/supabase.auth.service'
 	import type { User, Provider } from '@supabase/supabase-js'
-	export let SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
-	export let SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY
 	export let profileFunction: Function = () => {}
 	export let providers: Provider[] = []
 	export let onSignIn: Function = () => {}
@@ -15,12 +13,6 @@
 	// export let profileKey: string = ''
 	let token = ''
 	let supabaseAuthService: SupabaseAuthService
-	/*
-    backdropDismiss = false, setUser,
-    profileFunction, providers, onSignIn, onSignOut, SUPABASE_URL, SUPABASE_KEY,
-    profileTable, profileKey
-
-*/
 
 	let localUser: User | null = null
 	onMount(() => {
@@ -30,7 +22,7 @@
 			//console.log('LOGIN subscribed: user', user)
 		})
 		if (!supabaseAuthService) {
-			supabaseAuthService = SupabaseAuthService.getInstance(SUPABASE_URL, SUPABASE_KEY)
+			supabaseAuthService = SupabaseAuthService.getInstance()
 		}
 	})
 
@@ -89,8 +81,6 @@
 			component: LoginModal,
 			componentProps: {
 				providers: providers,
-				SUPABASE_URL: SUPABASE_URL,
-				SUPABASE_KEY: SUPABASE_KEY,
 				onSignIn: onSignIn,
 			},
 			showBackdrop: true,
@@ -109,8 +99,6 @@
 		const openPasswordResetModalController = await modalController.create({
 			component: LoginNewPasswordModal,
 			componentProps: {
-				SUPABASE_URL: SUPABASE_URL,
-				SUPABASE_KEY: SUPABASE_KEY,
 				token: token,
 			},
 			showBackdrop: true,

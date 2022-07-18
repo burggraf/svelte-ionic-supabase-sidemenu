@@ -8,8 +8,6 @@ import { loadingBox } from "$services/loadingMessage";
 
 export let name: Provider;
 // export let color: string;
-export let SUPABASE_URL: string;
-export let SUPABASE_KEY: string;
 const logoColors: any = {
     "google": "rgb(227,44,41)",
     "facebook": "rgb(59,89,152)",
@@ -87,8 +85,7 @@ import {
 let supabaseAuthService: SupabaseAuthService;
 	if (!supabaseAuthService) {
 		supabaseAuthService = 
-            SupabaseAuthService.getInstance(
-                SUPABASE_URL, SUPABASE_KEY);
+            SupabaseAuthService.getInstance();
 	}
 	const signInWithProvider = async (provider: Provider) => {
         const loader = await loadingBox(`Contacting ${provider}...`);

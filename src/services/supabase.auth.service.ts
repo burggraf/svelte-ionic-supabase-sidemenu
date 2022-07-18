@@ -1,9 +1,8 @@
 import { createClient, Provider, SupabaseClient, User } from '@supabase/supabase-js';
 import { BehaviorSubject } from 'rxjs';
 
-// import { keys } from '../services/keys.service';
-
-// const supabase: SupabaseClient = createClient(keys.SUPABASE_URL, keys.SUPABASE_KEY);
+const VITE_SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL
+const VITE_SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY
 
 interface Listener {
   id: string;
@@ -15,15 +14,15 @@ export default class SupabaseAuthService {
   static supabase: SupabaseClient;
   static profileTable: string;
   static profileKey: string;
-  static getInstance(SUPABASE_URL?: string, SUPABASE_KEY?: string, profileTable?: string, profileKey?: string) {
+  static getInstance(profileTable?: string, profileKey?: string) {
     SupabaseAuthService.profileTable = profileTable || '';
     SupabaseAuthService.profileKey = profileKey || '';
     if (this.myInstance === null) {
-      if (SUPABASE_URL && SUPABASE_KEY) {
-        this.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+      if (VITE_SUPABASE_URL && VITE_SUPABASE_KEY) {
+        this.supabase = createClient(VITE_SUPABASE_URL, VITE_SUPABASE_KEY);
         this.myInstance = new this();
       } else {
-        console.error('SupabaseAuthService: getInstance: missing SUPABASE_URL or SUPABASE_KEY');
+        console.error('SupabaseAuthService: getInstance: missing env variable(s) VITE_SUPABASE_URL or VITE_SUPABASE_KEY');
         this.myInstance = null;
       }
     }

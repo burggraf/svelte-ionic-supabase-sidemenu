@@ -5,8 +5,6 @@
 
   import { loadingBox } from "$services/loadingMessage";
 
-  export let SUPABASE_KEY: string = "";
-  export let SUPABASE_URL: string = "";
   export let token: string = "";
 
   const defineComponent = (tagName: string, customElement: any) => {
@@ -20,8 +18,7 @@
   let supabaseAuthService: SupabaseAuthService;
 	if (!supabaseAuthService) {
 		supabaseAuthService = 
-            SupabaseAuthService.getInstance(
-                SUPABASE_URL, SUPABASE_KEY);
+            SupabaseAuthService.getInstance();
 	}
 
   import {

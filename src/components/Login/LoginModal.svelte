@@ -7,8 +7,6 @@
   import { toast } from '$services/toast';
   import { loadingBox } from "$services/loadingMessage";
   export let providers: Provider[] = [];  
-  export let SUPABASE_KEY: string = "";
-  export let SUPABASE_URL: string = "";
   export let onSignIn: Function = () => {};
 
   const defineComponent = (tagName: string, customElement: any) => {
@@ -22,8 +20,7 @@
   let supabaseAuthService: SupabaseAuthService;
 	if (!supabaseAuthService) {
 		supabaseAuthService = 
-            SupabaseAuthService.getInstance(
-                SUPABASE_URL, SUPABASE_KEY);
+            SupabaseAuthService.getInstance();
 	}
 
   import {
@@ -38,8 +35,6 @@
 
 //   console.log("Received providers", providers);
 //   console.log("Received SUPABASE_KEY", SUPABASE_KEY);
-//   console.log("Received SUPABASE_URL", SUPABASE_URL);
-
 
   const logoColors: any = {
     "google": "rgb(227,44,41)",
@@ -277,8 +272,6 @@
           <ion-col>
               {#each providers as provider}
                   <LoginProviderSignInButton 
-                    SUPABASE_URL={SUPABASE_URL} 
-                    SUPABASE_KEY={SUPABASE_KEY} 
                     name={provider} 
                     />
               {/each}
