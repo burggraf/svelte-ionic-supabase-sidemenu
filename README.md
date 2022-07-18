@@ -2,7 +2,9 @@
 
 
 <h1 align="center">Svelte Ionic Supabase Sidemenu</h1> <br>
+
 # Setup
+
 ## Required environment variables:
 
 `VITE_SUPABASE_URL` (https://app.supabase.com/project/_/settings/api: see Project URL)
@@ -10,6 +12,7 @@
 `VITE_SUPABASE_KEY` (https://app.supabase.com/project/_/settings/api: see Project API keys / Anon / Public)
 
 ### Local Development
+
 Create a file called `.env` in the root of your project.
 
 I.e.:
