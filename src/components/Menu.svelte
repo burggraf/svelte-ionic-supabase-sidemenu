@@ -36,7 +36,7 @@
 					providers={['google', 'facebook', 'twitter', 'notion', 'spotify', 'zoom']}
 					profileFunction={() => {
 						//console.log('do some profileFunction here')
-					}}
+					}} 
 				/>
 			</ion-menu-toggle>
 

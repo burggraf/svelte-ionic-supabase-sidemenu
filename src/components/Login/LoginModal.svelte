@@ -54,7 +54,6 @@
     "bitbucket": "rgb(56,98,169)",
     "gitlab": "rgb(209,44,30)",
     "azure": "rgb(228,54,26)",
-    //"linkedin": "rgb(3,47,84)",
     "linkedin": "rgb(2,119,181)",
     "zoom": "rgb(45,140,255)",
     "notion": window.matchMedia('(prefers-color-scheme: dark)').matches ? 'gray' : 'black',
@@ -160,7 +159,7 @@
 </ion-header>
 
 <!-- <ion-content class="ion-padding"> -->
-  <ion-grid class="ion-padding" style="max-width:375px">
+  <ion-grid class="ion-padding LoginGrid">
       <ion-row>
           <ion-col>
               <ion-label>Email Address</ion-label>
@@ -268,12 +267,12 @@
           </ion-col>
       </ion-row>
   </ion-grid>
-  {#if providers}
+  {#if providers && providers.length > 0}
       <div class="ion-text-center">
       <ion-label>or, sign in with:</ion-label>
       </div>
   {/if}
-  <ion-grid class="ion-padding ion-text-center" style="max-width:375px">
+  <ion-grid class="ion-padding ion-text-center ProvidersGrid"> 
       <ion-row>
           <ion-col>
               {#each providers as provider}
@@ -281,14 +280,20 @@
                     SUPABASE_URL={SUPABASE_URL} 
                     SUPABASE_KEY={SUPABASE_KEY} 
                     name={provider} 
-                    color={logoColors[provider] || 'black'} />
+                    />
               {/each}
       </ion-col>
       </ion-row>
   </ion-grid>    
-<!-- </ion-content> -->
+  <!-- </ion-content> -->
 
 <style>
+.LoginGrid {
+    max-width:375px;
+}
+.ProvidersGrid {
+    max-width:375px;
+}
 input:-webkit-autofill {
     /* height: 0px; */
     /* -webkit-box-shadow:0 0 0 10px var(--ion-color-FORCECLEAR) inset; */
