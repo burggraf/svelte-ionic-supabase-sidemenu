@@ -16,9 +16,10 @@
 Create a file called `.env` in the root of your project.
 
 I.e.:
+```
 VITE_SUPABASE_URL=https://xxxxxxxxxxxxxxxxxxxx.supabase.co
 VITE_SUPABASE_KEY=[project_anon_key_here]
-
+```
 
 
 <h2>BASED ON</h2>
