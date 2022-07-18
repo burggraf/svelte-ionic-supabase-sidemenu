@@ -22,6 +22,11 @@ VITE_SUPABASE_KEY=[project_anon_key_here]
 ```
 
 
+### Notes
+
+#### Login
+The login has been implemented as a modal, so it can be used on any page where a user needs to be logged in to use a certain feature (without forcing the user to navigat to a separate page.)
+
 <h2>BASED ON</h2>
 <h1 align="center">Ionic Svelte Demo - SIDEMENU</h1> <br>
 <p align="center">
