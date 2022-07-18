@@ -108,10 +108,10 @@ let supabaseAuthService: SupabaseAuthService;
 			on:click={() => {
 				signInWithProvider(name)
 			}}>
-			{#if (name.startsWith('./assets'))}
+			{#if (name.startsWith('./assets/'))}
 				<ion-icon src={name}  size='large' slot="icon-only" />	
 			{/if}
-			{#if (!name.startsWith('./assets'))}
+			{#if (!name.startsWith('./assets/'))}
 				<ion-icon 
                     icon={icons[name]} 
                     style='color: {logoColors[name] || 'black'}'
