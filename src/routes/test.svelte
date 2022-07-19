@@ -1,9 +1,19 @@
 <script lang="ts">
-    // import { params } from "@roxi/routify";
-    //import TestComponent from "$components/TestComponent.svelte";
-//$components/Login.svelte
-    // $:folder = $params.folder;
-  </script>
+	import SupabaseAuthService from '$services/supabase.auth.service'
+  import type { User } from '@supabase/supabase-js';
+  import { onDestroy, onMount } from 'svelte';
+  let user = null;
+  let userSubscription: any;
+  onMount(() => {
+    userSubscription = SupabaseAuthService.user.subscribe((newuser: User | null) => {
+      user = newuser;
+      console.log('got user:', user)
+    })
+  })
+  onDestroy(() => {
+    userSubscription.unsubscribe()
+  })	
+</script>
   
   <ion-header translucent="true">
     <ion-toolbar>

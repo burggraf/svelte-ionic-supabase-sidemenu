@@ -52,6 +52,46 @@ import { toast } from "$services/toast";
 toast("Password was updated", "success", 3000);
 ```
 
+### SupabaseAuthService
+
+Login:
+
+#### example
+
+```js
+import Login from '$components/Login/Login.svelte'
+
+<Login
+  providers={['google', 'facebook', 'twitter']}
+  profileFunction={() => {
+    // console.log('do something when user clicks on their email address')
+  }} 
+/>
+```
+
+Subscribe to user changes:
+
+#### example
+
+```js
+import SupabaseAuthService from '$services/supabase.auth.service'
+import type { User } from '@supabase/supabase-js';
+import { onDestroy, onMount } from 'svelte';
+let user = null;
+let userSubscription: any;
+onMount(() => {
+  userSubscription = SupabaseAuthService.user.subscribe((newuser: User | null) => {
+    user = newuser;
+    console.log('got user:', user)
+  })
+})
+onDestroy(() => {
+  userSubscription.unsubscribe()
+})	
+
+```
+
+
 ### Notes
 
 #### Login
