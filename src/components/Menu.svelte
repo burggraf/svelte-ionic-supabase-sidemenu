@@ -9,7 +9,6 @@
 
 	const appPages = [
 		{ title: 'Test', url: '/test', icon: settings },
-		{ title: 'Test2', url: '/test2', icon: mail },
 		// { title: "Login2", url: "/login", icon: mail },
 	]
 	const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders']
