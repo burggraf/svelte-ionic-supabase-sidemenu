@@ -25,7 +25,7 @@ VITE_SUPABASE_KEY=[project_anon_key_here]
 
 ### loadingBox
 
-#### example
+##### example
 ```js  
 import { loadingBox } from "$services/loadingMessage";
 
@@ -41,10 +41,10 @@ const {user, session, error} =
 
 ### toast
 
-#### usage
+##### usage
 `toast(message: string, color: string = 'danger', duration: number = 3000)`
 
-#### example
+##### example
 
 ```js
 import { toast } from "$services/toast";
@@ -54,9 +54,16 @@ toast("Password was updated", "success", 3000);
 
 ### SupabaseAuthService
 
-Login:
+#### Login
 
-#### example
+The login component will handle:
+- sign up
+- email login in
+- magic links
+- sign in with OAuth providers
+- password reset redirects
+
+##### example
 
 ```js
 import Login from '$components/Login/Login.svelte'
@@ -69,9 +76,9 @@ import Login from '$components/Login/Login.svelte'
 />
 ```
 
-Subscribe to user changes:
+#### Subscribe to user changes:
 
-#### example
+##### example
 
 ```js
 import SupabaseAuthService from '$services/supabase.auth.service'
