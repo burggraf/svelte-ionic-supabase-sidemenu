@@ -21,6 +21,36 @@ VITE_SUPABASE_URL=https://xxxxxxxxxxxxxxxxxxxx.supabase.co
 VITE_SUPABASE_KEY=[project_anon_key_here]
 ```
 
+## Services
+
+### loadingBox
+
+#### example
+```js  
+import { loadingBox } from "$services/loadingMessage";
+
+const loader = await loadingBox('Logging in...');
+const {user, session, error} = 
+await supabaseAuthService.signInWithEmail(email, password);
+if (error) { // handle error
+    loader.dismiss();
+} else { // handle success
+    loader.dismiss();
+  }
+```
+
+### toast
+
+#### usage
+`toast(message: string, color: string = 'danger', duration: number = 3000)`
+
+#### example
+
+```js
+import { toast } from "$services/toast";
+
+toast("Password was updated", "success", 3000);
+```
 
 ### Notes
 
