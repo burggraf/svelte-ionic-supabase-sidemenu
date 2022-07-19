@@ -36,6 +36,22 @@ export default class SupabaseDataService {
         VITE_SUPABASE_KEY);
   }
 
+  public getWidgets = async () => {
+    if (!this.isConnected()) { await this.connect() }
+    const { data, error } = await supabase.from('widgets').select();
+    return { data, error };
+  }
+
+  public getSingleRecordById = async (table: string, id: string) => {
+      const { data, error } = 
+      await supabase.from(table)
+      .select('*')
+      .eq('id', id)
+      .limit(1)
+      .single(); // return a single object (not an array)
+      return { data, error };  
+  }
+
   public async getProfile(id: string) {
     if (id) {
       const { data, error } = 

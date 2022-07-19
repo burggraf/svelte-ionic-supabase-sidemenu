@@ -15,6 +15,34 @@ export default {
   "routifyDir": import.meta.url,
   "children": [
     {
+      "meta": {},
+      "id": "_default_TestAuth_svelte",
+      "name": "TestAuth",
+      "module": () => import('../src/routes/TestAuth.svelte'),
+      "file": {
+        "path": "src/routes/TestAuth.svelte",
+        "dir": "src/routes",
+        "base": "TestAuth.svelte",
+        "ext": ".svelte",
+        "name": "TestAuth"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
+      "id": "_default_TestData_svelte",
+      "name": "TestData",
+      "module": () => import('../src/routes/TestData.svelte'),
+      "file": {
+        "path": "src/routes/TestData.svelte",
+        "dir": "src/routes",
+        "base": "TestData.svelte",
+        "ext": ".svelte",
+        "name": "TestData"
+      },
+      "children": []
+    },
+    {
       "meta": {
         "dynamic": true
       },
@@ -91,17 +119,34 @@ export default {
     },
     {
       "meta": {},
-      "id": "_default_test_svelte",
-      "name": "test",
-      "module": () => import('../src/routes/test.svelte'),
+      "id": "_default_widget",
+      "name": "widget",
+      "module": false,
       "file": {
-        "path": "src/routes/test.svelte",
+        "path": "src/routes/widget",
         "dir": "src/routes",
-        "base": "test.svelte",
-        "ext": ".svelte",
-        "name": "test"
+        "base": "widget",
+        "ext": "",
+        "name": "widget"
       },
-      "children": []
+      "children": [
+        {
+          "meta": {
+            "dynamic": true
+          },
+          "id": "_default_widget__id__svelte",
+          "name": "[id]",
+          "module": () => import('../src/routes/widget/[id].svelte'),
+          "file": {
+            "path": "src/routes/widget/[id].svelte",
+            "dir": "src/routes/widget",
+            "base": "[id].svelte",
+            "ext": ".svelte",
+            "name": "[id]"
+          },
+          "children": []
+        }
+      ]
     }
   ]
 }

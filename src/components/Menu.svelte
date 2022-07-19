@@ -8,8 +8,8 @@
 	//import Login from "$components/Login.svelte";
 
 	const appPages = [
-		{ title: 'Test', url: '/test', icon: settings },
-		// { title: "Login2", url: "/login", icon: mail },
+		{ title: 'Test Auth', url: '/TestAuth', icon: settings },
+		{ title: 'Test Data', url: '/TestData', icon: settings },
 	]
 	const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders']
 

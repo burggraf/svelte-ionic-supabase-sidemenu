@@ -65,6 +65,8 @@ The login component will handle:
 
 ##### example
 
+Most often this would be used in the Menu component, but can be placed on any page where you want to allow the user to log in.
+
 ```js
 import Login from '$components/Login/Login.svelte'
 

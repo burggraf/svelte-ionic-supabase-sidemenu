@@ -20,14 +20,16 @@
       <ion-buttons slot="start">
         <ion-menu-button />
       </ion-buttons>
-      <ion-title>Test</ion-title>
+      <ion-title>Test Auth</ion-title>
     </ion-toolbar>
   </ion-header>
   
   <ion-content class="ion-padding">  
-    <div id="container">
+    <!-- <div id="container">
       <strong class="capitalize">test</strong>
-    </div>
+    </div> -->
+    User:
+    <pre>{JSON.stringify(user,null,2)}</pre>
   </ion-content>
   
   <style>
