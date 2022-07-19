@@ -31,11 +31,11 @@ import { loadingBox } from "$services/loadingMessage";
 
 const loader = await loadingBox('Logging in...');
 const {user, session, error} = 
-await supabaseAuthService.signInWithEmail(email, password);
-if (error) { // handle error
-    loader.dismiss();
-} else { // handle success
-    loader.dismiss();
+  await supabaseAuthService.signInWithEmail(email, password);
+  if (error) { // handle error
+      loader.dismiss();
+  } else { // handle success
+      loader.dismiss();
   }
 ```
 
