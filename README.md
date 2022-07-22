@@ -110,6 +110,15 @@ onDestroy(() => {
 #### Login
 The login has been implemented as a modal, so it can be used on any page where a user needs to be logged in to use a certain feature (without forcing the user to navigat to a separate page.)
 
+#### Back Button
+Since the back button isn't functional in this library yet, here's a simple workaround:
+
+```js
+<ion-button on:click={()=>{history.back();}}>
+  <ion-icon slot="start" icon={chevronBackOutline}></ion-icon>
+</ion-button>
+```
+
 <h2>BASED ON</h2>
 <h1 align="center">Ionic Svelte Demo - SIDEMENU</h1> <br>
 <p align="center">
@@ -122,15 +131,6 @@ The login has been implemented as a modal, so it can be used on any page where a
   A showcase app for Ionic. Supercharged by Svelte and Vite.
 </p>
 <br>
-
-#### Back Button
-Since the back button isn't functional in this library yet, here's a simple workaround:
-
-```js
-<ion-button on:click={()=>{history.back();}}>
-  <ion-icon slot="start" icon={chevronBackOutline}></ion-icon>
-</ion-button>
-```
 
 # Ionic Svelte Blank starter
 A starter app for all Ionic UI elements - based on Ionic's Sidemenu Starter
