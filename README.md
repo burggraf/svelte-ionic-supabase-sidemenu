@@ -123,7 +123,7 @@ The login has been implemented as a modal, so it can be used on any page where a
 </p>
 <br>
 
-### Back Button
+#### Back Button
 Since the back button isn't functional in this library yet, here's a simple workaround:
 
 ```js
