@@ -71,6 +71,13 @@ export default class SupabaseDataService {
     return { data, error };
   }
 
+  public async saveWidget(widget: any) {
+    console.log('saveWidget', widget);
+    const { data, error } = 
+    await supabase.from('widgets')
+    .upsert(widget);
+    return { data, error };
+  }
   public getSingleRecordById = async (table: string, id: string) => {
       const { data, error } = 
       await supabase.from(table)
