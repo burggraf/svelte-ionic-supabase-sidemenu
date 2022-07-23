@@ -52,9 +52,6 @@
 		</ion-card-content>
 	  </ion-card>
 
-	<pre>
-		{JSON.stringify(widget || {}, null, 2)}
-	</pre>
 </ion-content>
 
 <style>

@@ -1,8 +1,8 @@
 <script lang="ts">
 	// import { fromFetch } from "rxjs/fetch";
-	import { goto } from '@roxi/routify'
+	// import { goto } from '@roxi/routify'
 	import { /*getIonicMenu,*/ menuController, registerMenu } from '$ionic/svelte'
-	import { mail, settings } from 'ionicons/icons'
+	import { settings } from 'ionicons/icons'
 	import { onMount } from 'svelte'
 	import Login from '$components/Login/Login.svelte'
 
@@ -16,7 +16,8 @@
 
 	const goMenuItem = (page) => {
 		// $goto(page.url, { folder: page.url });
-		$goto(page.url, {})
+		// $goto(page.url, {})
+		window.location = page.url
 		menuController.close('mainmenu')
 	}
 
@@ -65,6 +66,9 @@
 
 <style>
 	u {
+		cursor: pointer;
+	}
+	ion-item {
 		cursor: pointer;
 	}
 	ion-menu ion-content {
