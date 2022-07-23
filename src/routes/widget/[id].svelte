@@ -36,6 +36,7 @@
 </ion-header>
 <ion-content class="ion-padding">
 
+	{#if widget}
 	<ion-card>
 		<ion-card-header>
 		  <ion-card-subtitle>{widget?.id}</ion-card-subtitle>
@@ -51,6 +52,7 @@
 
 		</ion-card-content>
 	  </ion-card>
+	{/if}
 
 </ion-content>
 
