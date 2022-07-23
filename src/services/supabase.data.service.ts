@@ -38,6 +38,13 @@ export default class SupabaseDataService {
         VITE_SUPABASE_KEY);
   }
 
+  public saveCache(obj: any) {
+    localStorage.setItem(window.location.pathname, JSON.stringify(obj));
+  }
+  public clearCache() {
+    localStorage.removeItem(window.location.pathname);
+  }
+
   public getWidgets = async (options: any = {}) => {
     let loader;
     if (!options.cached) loader = await loadingBox('loading widgets...')
