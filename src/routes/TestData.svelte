@@ -1,6 +1,5 @@
 <script lang="ts">
 	import SupabaseDataService from '$services/supabase.data.service'
-
 	const supabaseDataService = SupabaseDataService.getInstance()
 	const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}')
 	let widgets: any[] = cache.data || []
@@ -36,7 +35,6 @@
 			</ion-item>
 		{/each}
 	</ion-list>
-	<ion-button on:click={()=>{supabaseDataService.clearCache();}}>Clear Cache</ion-button>
 </ion-content>
 
 <style>

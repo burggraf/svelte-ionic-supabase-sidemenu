@@ -45,6 +45,9 @@ export default class SupabaseDataService {
   public clearCache() {
     localStorage.removeItem(window.location.pathname);
   }
+  public clearAllCache() {
+    localStorage.clear();
+  }
 
   public getWidgets = async (options: any = {}) => {
     let loader;

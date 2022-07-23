@@ -36,10 +36,24 @@
 </ion-header>
 <ion-content class="ion-padding">
 
+	<ion-card>
+		<ion-card-header>
+		  <ion-card-subtitle>{widget?.id}</ion-card-subtitle>
+		  <ion-card-title>{widget?.name}</ion-card-title>
+		</ion-card-header>
+	  
+		<ion-card-content>
+			{widget?.description}
+			<br/>
+			<br/>
+			price: {widget?.price.toFixed(2)}<br/>
+			created: {new Date(widget?.created_at).toLocaleDateString()} {new Date(widget?.created_at).toLocaleTimeString()}<br/>
+
+		</ion-card-content>
+	  </ion-card>
+
 	<pre>
-
-		{JSON.stringify(widget, null, 2)}
-
+		{JSON.stringify(widget || {}, null, 2)}
 	</pre>
 </ion-content>
 
