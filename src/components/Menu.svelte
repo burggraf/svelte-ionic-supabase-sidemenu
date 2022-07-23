@@ -2,15 +2,16 @@
 	// import { fromFetch } from "rxjs/fetch";
 	// import { goto } from '@roxi/routify'
 	import { /*getIonicMenu,*/ menuController, registerMenu } from '$ionic/svelte'
-	import { settings } from 'ionicons/icons'
+	import { settings, person, informationCircle } from 'ionicons/icons'
 	import { onMount } from 'svelte'
 	import Login from '$components/Login/Login.svelte'
 
 	//import Login from "$components/Login.svelte";
 
 	const appPages = [
-		{ title: 'Test Auth', url: '/TestAuth', icon: settings },
-		{ title: 'Test Data', url: '/TestData', icon: settings },
+		{ title: 'Current User', url: '/TestAuth', icon: person },
+		{ title: 'Widgets', url: '/TestData', icon: settings },
+		{ title: 'Info', url: '/', icon: informationCircle },
 	]
 	const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders']
 

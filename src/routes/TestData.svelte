@@ -21,7 +21,7 @@
 		<ion-buttons slot="start">
 			<ion-menu-button />
 		</ion-buttons>
-		<ion-title>Test Data</ion-title>
+		<ion-title>Widgets List</ion-title>
 	</ion-toolbar>
 </ion-header>
 
