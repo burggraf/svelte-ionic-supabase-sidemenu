@@ -39,6 +39,7 @@ export default class SupabaseDataService {
   }
 
   public saveCache(obj: any) {
+    console.log('saving cache', window.location.pathname, obj)
     localStorage.setItem(window.location.pathname, JSON.stringify(obj));
   }
   public clearCache() {
@@ -50,6 +51,19 @@ export default class SupabaseDataService {
     if (!options.cached) loader = await loadingBox('loading widgets...')
     if (!this.isConnected()) { await this.connect() }
     const { data, error } = await supabase.from('widgets').select();
+    if (!options.cached) loader.dismiss();
+    return { data, error };
+  }
+
+  public getWidget = async (id: string, options: any = {}) => {
+    let loader;
+    if (!options.cached) loader = await loadingBox('loading widget...')
+    if (!this.isConnected()) { await this.connect() }
+    const { data, error } = await supabase.from('widgets')
+      .select()
+      .eq('id', id)
+      .limit(1)
+      .single()
     if (!options.cached) loader.dismiss();
     return { data, error };
   }
