@@ -5,6 +5,7 @@
 	import { mail, settings } from 'ionicons/icons'
 	import { onMount } from 'svelte'
 	import Login from '$components/Login/Login.svelte'
+
 	//import Login from "$components/Login.svelte";
 
 	const appPages = [
@@ -56,9 +57,16 @@
 			{/each}
 		</ion-list>
 	</ion-content>
+	<ion-footer class="ion-padding">
+		<u on:click={()=>{localStorage.clear();}}>clear cache</u>
+		<br/>&nbsp;
+	</ion-footer>
 </ion-menu>
 
 <style>
+	u {
+		cursor: pointer;
+	}
 	ion-menu ion-content {
 		--background: var(--ion-item-background, var(--ion-background-color, #fff));
 	}
