@@ -20,7 +20,7 @@
       <ion-buttons slot="start">
         <ion-menu-button />
       </ion-buttons>
-      <ion-title>Test Auth</ion-title>
+      <ion-title>Current User</ion-title>
     </ion-toolbar>
   </ion-header>
   

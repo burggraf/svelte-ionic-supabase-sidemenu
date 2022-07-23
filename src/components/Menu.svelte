@@ -3,15 +3,31 @@
 	// import { goto } from '@roxi/routify'
 	import { /*getIonicMenu,*/ menuController, registerMenu } from '$ionic/svelte'
 	import { settings, person, informationCircle } from 'ionicons/icons'
-	import { onMount } from 'svelte'
+	import { onDestroy, onMount } from 'svelte'
 	import Login from '$components/Login/Login.svelte'
+	import SupabaseAuthService from '$services/supabase.auth.service'
+import type { User } from '@supabase/supabase-js';
+	let user = null
+	let userSubscription: any
+
+	onMount(() => {
+		registerMenu('mainmenu')
+
+		userSubscription = SupabaseAuthService.user.subscribe((newuser: User | null) => {
+			user = newuser
+			console.log('got user:', user)
+		})
+	})
+	onDestroy(() => {
+		userSubscription.unsubscribe()
+	})
 
 	//import Login from "$components/Login.svelte";
 
 	const appPages = [
-		{ title: 'Current User', url: '/TestAuth', icon: person },
-		{ title: 'Widgets', url: '/TestData', icon: settings },
-		{ title: 'Info', url: '/', icon: informationCircle },
+		{ title: 'Current User', url: '/TestAuth', icon: person, requireLogin: true },
+		{ title: 'Widgets', url: '/TestData', icon: settings, requireLogin: false },
+		{ title: 'Info', url: '/', icon: informationCircle, requireLogin: false },
 	]
 	const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders']
 
@@ -21,10 +37,6 @@
 		window.location = page.url
 		menuController.close('mainmenu')
 	}
-
-	onMount(() => {
-		registerMenu('mainmenu')
-	})
 </script>
 
 <ion-menu content-id="main" menu-id="mainmenu">
@@ -38,11 +50,12 @@
 					providers={['google', 'facebook', 'twitter']}
 					profileFunction={() => {
 						//console.log('do some profileFunction here')
-					}} 
+					}}
 				/>
 			</ion-menu-toggle>
 
 			{#each appPages as p, i}
+				{#if !p.requireLogin || user}
 				<ion-menu-toggle auto-hide="false">
 					<ion-item
 						routerDirection="root"
@@ -56,12 +69,17 @@
 						<ion-label>{p.title}</ion-label>
 					</ion-item>
 				</ion-menu-toggle>
+				{/if}
 			{/each}
 		</ion-list>
 	</ion-content>
 	<ion-footer class="ion-padding">
-		<u on:click={()=>{localStorage.clear();}}>clear cache</u>
-		<br/>&nbsp;
+		<u
+			on:click={() => {
+				localStorage.clear()
+			}}>clear cache</u
+		>
+		<br />&nbsp;
 	</ion-footer>
 </ion-menu>
 
