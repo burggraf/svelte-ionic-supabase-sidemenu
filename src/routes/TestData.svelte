@@ -1,32 +1,31 @@
 <script lang="ts">
 	import SupabaseDataService from '$services/supabase.data.service'
-	import { onMount } from 'svelte'
+	// import { onMount } from 'svelte'
 	import { loadingBox } from '$services/loadingMessage'
-	import IonPage from '$lib/ionic/svelte/components/IonPage.svelte'
+	//import IonPage from '$lib/ionic/svelte/components/IonPage.svelte'
 
 	const supabaseDataService = SupabaseDataService.getInstance()
-	let widgets: any[] = []
-	const getWidgets = async () => {
-		const loader = await loadingBox(
-			'Flinging the widgets from the Supabase cloud to your browser...'
-		)
+	const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}');
+	let widgets: any[] = cache.data || [];
+	console.log('cached widgets', widgets);
 
-		const { data, error } = await supabaseDataService.getWidgets()
+	const getWidgets = async () => {
+		const { data, error } = await supabaseDataService.getWidgets({cached: widgets.length})
 		if (error) {
-			loader.dismiss()
 			console.error(error)
 		} else {
 			widgets = data
+			localStorage.setItem(window.location.pathname, JSON.stringify({data}))
 			console.log('got widgets:', widgets)
-			loader.dismiss()
 		}
 	}
-	onMount(() => {
-		getWidgets()
-	})
+	getWidgets();
+	//onMount(() => {
+		//getWidgets()
+	//})
 </script>
 
-<IonPage>
+<!-- <IonPage> -->
 	<ion-header translucent="true">
 		<ion-toolbar>
 			<ion-buttons slot="start">
@@ -47,9 +46,11 @@
 			{/each}
 		</ion-list>
 	</ion-content>
-</IonPage>
-
+<!-- </IonPage> -->
 <style>
+
+</style>
+<!-- <style>
 	ion-menu-button {
 		color: var(--ion-color-primary);
 	}
@@ -78,4 +79,4 @@
 	#container a {
 		text-decoration: none;
 	}
-</style>
+</style> -->

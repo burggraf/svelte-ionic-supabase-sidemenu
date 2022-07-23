@@ -1,4 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { loadingBox } from '$services/loadingMessage'
+
 const VITE_SUPABASE_URL: string = import.meta.env.VITE_SUPABASE_URL
 const VITE_SUPABASE_KEY: string = import.meta.env.VITE_SUPABASE_KEY
 
@@ -36,9 +38,12 @@ export default class SupabaseDataService {
         VITE_SUPABASE_KEY);
   }
 
-  public getWidgets = async () => {
+  public getWidgets = async (options: any = {}) => {
+    let loader;
+    if (!options.cached) loader = await loadingBox('loading widgets...')
     if (!this.isConnected()) { await this.connect() }
     const { data, error } = await supabase.from('widgets').select();
+    if (!options.cached) loader.dismiss();
     return { data, error };
   }
 
