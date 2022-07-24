@@ -6,7 +6,9 @@
 	import { onDestroy, onMount } from 'svelte'
 	import Login from '$components/Login/Login.svelte'
 	import SupabaseAuthService from '$services/supabase.auth.service'
-import type { User } from '@supabase/supabase-js';
+	import type { User } from '@supabase/supabase-js';
+	import cfg from '../../package.json';
+	import { config } from '@ionic/core';
 	let user = null
 	let userSubscription: any
 
@@ -78,7 +80,7 @@ import type { User } from '@supabase/supabase-js';
 			on:click={() => {
 				localStorage.clear()
 			}}>clear cache</u
-		>
+		><br/>v.{cfg?.version} 
 		<br />&nbsp;
 	</ion-footer>
 </ion-menu>
