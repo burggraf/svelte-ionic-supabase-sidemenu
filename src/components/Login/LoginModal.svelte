@@ -9,13 +9,13 @@
   export let providers: Provider[] = [];  
   export let onSignIn: Function = () => {};
 
-  const defineComponent = (tagName: string, customElement: any) => {
-    if (typeof customElements === "undefined") return;
+//   const defineComponent = (tagName: string, customElement: any) => {
+//     if (typeof customElements === "undefined") return;
 
-    if (!customElements.get(tagName)) {
-        customElements.define(tagName, customElement);
-    }
-};
+//     if (!customElements.get(tagName)) {
+//         customElements.define(tagName, customElement);
+//     }
+// };
 
   let supabaseAuthService: SupabaseAuthService;
 	if (!supabaseAuthService) {
@@ -32,9 +32,6 @@
     arrowForwardOutline,
     link
   } from "ionicons/icons";
-
-//   console.log("Received providers", providers);
-//   console.log("Received SUPABASE_KEY", SUPABASE_KEY);
 
   const logoColors: any = {
     "google": "rgb(227,44,41)",
@@ -64,12 +61,6 @@
   function handlePasswordValue(event) {
     password = event.target.value!;
   }
-
-  // import { logoIonic, star, fingerPrint, ellipsisVertical } from "ionicons/icons";
- 
-  // const clickAction = (event) => {
-  //   console.log("You clicked me!!", event.detail);
-  // };
 
   const validateEmail = (email: string) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -131,9 +122,6 @@
   }
   let email = '';
   let password = '';
-  let showModal = false;
-  let backdropDismiss = true;
-  let localUser: any = {};
   let signUpMode = false;
 
 </script>
@@ -153,7 +141,6 @@
   </ion-toolbar>
 </ion-header>
 
-<!-- <ion-content class="ion-padding"> -->
   <ion-grid class="ion-padding LoginGrid">
       <ion-row>
           <ion-col>
@@ -278,7 +265,6 @@
       </ion-col>
       </ion-row>
   </ion-grid>    
-  <!-- </ion-content> -->
 
 <style>
 .LoginGrid {
@@ -288,15 +274,11 @@
     max-width:375px;
 }
 input:-webkit-autofill {
-    /* height: 0px; */
-    /* -webkit-box-shadow:0 0 0 10px var(--ion-color-FORCECLEAR) inset; */
     -webkit-text-fill-color: var(--ion-color-FORCEDARK);
     font-weight: 500px;
 }
 
 input:-webkit-autofill:focus {
-    /* height: 0px; */
-    /* -webkit-box-shadow: 0 0 0 10px var(--ion-color-FORCECLEAR) inset; */
     -webkit-text-fill-color: var(--ion-color-FORCEDARK);
     font-weight: 500px;
 } 
@@ -316,7 +298,6 @@ input:-webkit-autofill:focus {
     height: 50px;
     border: 1px solid rgb(212, 212, 212);
     background-color: var(--ion-background-color) !important;
-    /* border-bottom: 1px solid hsl(0, 0%, 83%); */
     border-radius: 5px;
 }
 .toast {
@@ -330,11 +311,5 @@ input:-webkit-autofill:focus {
     -webkit-flex-flow: row wrap;
     -moz-flex-flow: row wrap;
     justify-content: center;
-
-    /* flex-wrap: wrap; */
-    /* border: 1px solid; */
-
-    /* margin-right: 10px;
-    margin-left: 10px; */
 }
 </style>
