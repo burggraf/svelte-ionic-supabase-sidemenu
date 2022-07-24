@@ -53,7 +53,7 @@ export default class SupabaseDataService {
     let loader;
     if (!options.cached) loader = await loadingBox('loading widgets...')
     if (!this.isConnected()) { await this.connect() }
-    const { data, error } = await supabase.from('widgets').select();
+    const { data, error } = await supabase.from('widgets').select().order('name');
     if (!options.cached) loader.dismiss();
     return { data, error };
   }

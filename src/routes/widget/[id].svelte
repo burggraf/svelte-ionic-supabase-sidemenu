@@ -94,7 +94,7 @@
 				{#if editMode}
 					<ion-label>Price:</ion-label><ion-input value={widget.price} on:ionChange={handler} required name="price" type="number" style="width:100px;text-align:right;" />
 				{/if}
-				{#if !editMode}price: {widget?.price.toFixed(2)}{/if}
+				{#if !editMode}price: {widget?.price?.toFixed(2)}{/if}
 				<br />
 				created: {new Date(widget?.created_at).toLocaleDateString()}
 				{new Date(widget?.created_at).toLocaleTimeString()}<br />
