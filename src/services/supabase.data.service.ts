@@ -38,8 +38,11 @@ export default class SupabaseDataService {
         VITE_SUPABASE_KEY);
   }
 
+  /* cache */
+  public getCache = () => {
+    return JSON.parse(localStorage.getItem(window.location.pathname) || '{}');
+  }
   public saveCache(obj: any) {
-    console.log('saving cache', window.location.pathname, obj)
     localStorage.setItem(window.location.pathname, JSON.stringify(obj));
   }
   public clearCache() {
@@ -48,7 +51,8 @@ export default class SupabaseDataService {
   public clearAllCache() {
     localStorage.clear();
   }
-
+  /***********/
+  
   public getWidgets = async (options: any = {}) => {
     let loader;
     if (!options.cached) loader = await loadingBox('loading widgets...')

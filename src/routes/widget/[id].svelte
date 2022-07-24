@@ -3,7 +3,8 @@
 	import { chevronBackOutline, createOutline, checkmarkOutline, closeOutline } from 'ionicons/icons'
 	import SupabaseDataService from '$services/supabase.data.service'
 	const supabaseDataService = SupabaseDataService.getInstance()
-	const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}')
+	const cache: any = supabaseDataService.getCache();
+	// const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}')
 	// $: id = $params.id;
 	const id = $params.id
 	let widget: any = cache?.data

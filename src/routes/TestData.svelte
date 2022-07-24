@@ -1,7 +1,8 @@
 <script lang="ts">
 	import SupabaseDataService from '$services/supabase.data.service'
 	const supabaseDataService = SupabaseDataService.getInstance()
-	const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}')
+	const cache: any = supabaseDataService.getCache();
+	// const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}')
 	console.log('cache', cache)
 	let widgets: any[] = cache.data || []
 	const getWidgets = async () => {
