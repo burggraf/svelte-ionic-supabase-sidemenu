@@ -1,6 +1,6 @@
 <script lang="ts">
 	import LoginModal from '$components/Login/LoginModal.svelte'
-  import LoginNewPasswordModal from '$components/Login/LoginNewPasswordModal.svelte'
+  	import LoginNewPasswordModal from '$components/Login/LoginNewPasswordModal.svelte'
 	import { modalController } from '$ionic/svelte'
 	import { onMount } from 'svelte'
 	import SupabaseAuthService from '$services/supabase.auth.service'
@@ -65,15 +65,16 @@
 			// console.log('openProfile: no profileFunction')
 		}
 	}
-	const signOut = async () => {
+	const signOut = async () => {		
 		const { error } = await supabaseAuthService.signOut()
 		if (error) {
 			console.error('Error signing out', error)
 		} else {
 			if (onSignOut) {
 				onSignOut()
+			} else {
+				window.location.reload()
 			}
-			window.location.reload()
 		}
 	}
 	const openLoginBox = async () => {

@@ -50,6 +50,7 @@
 			<ion-menu-toggle auto-hide="false">
 				<Login
 					providers={['google', 'facebook', 'twitter']}
+					onSignOut={()=>{window.location.href='/';}}
 					profileFunction={() => {
 						//console.log('do some profileFunction here')
 					}}
