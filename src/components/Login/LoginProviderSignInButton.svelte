@@ -3,11 +3,8 @@ import SupabaseAuthService from "$services/supabase.auth.service";
 import type { Provider } from "@supabase/supabase-js";
 import { toast } from '$services/toast';
 import { loadingBox } from "$services/loadingMessage";
-
-// import { Provider } from '@supabase/supabase-js'
-
 export let name: Provider;
-// export let color: string;
+
 const logoColors: any = {
     "google": "rgb(227,44,41)",
     "facebook": "rgb(59,89,152)",
@@ -26,22 +23,6 @@ const logoColors: any = {
     "notion": window.matchMedia('(prefers-color-scheme: dark)').matches ? 'gray' : 'black',
   }
 
-// import { IonLoading } from "@ionic/core/components/ion-loading";
-// import { IonButton } from "@ionic/core/components/ion-button";
-
-//   const defineComponent = (tagName: string, customElement: any) => {
-//     if (typeof customElements === "undefined") return;
-
-//     if (!customElements.get(tagName)) {
-//         customElements.define(tagName, customElement);
-//     }
-// };
-
-//   defineComponent("ion-loading", IonLoading);
-//   defineComponent("ion-button", IonButton);
-
-// import SupabaseAuthService from './supabase.auth.service'
-
 import {
     logoApple as apple,
     logoGoogle as google,
@@ -57,9 +38,6 @@ import {
     logoLinkedin as linkedin,
     logoMicrosoft as azure,
     logoMicrosoft as microsoft,
-    //spotify: 'spotify.svg', // logoSpotify,
-	//notion: 'node_modules/ionic-react-supabase-login/dist/notion.svg', // logoNotion,
-	//zoom: 'node_modules/ionic-react-supabase-login/dist/zoom.svg', // logoZoom,
   } from "ionicons/icons";
 
   const icons = {
@@ -95,9 +73,6 @@ let supabaseAuthService: SupabaseAuthService;
 		if (error) {
             loader.dismiss();
 			toast(error.message);
-		} else {
-            // loader.dismiss();
-			// *** we can't get here becuase of the third-party redirect...
 		}
 	}
 </script>    
@@ -133,8 +108,4 @@ let supabaseAuthService: SupabaseAuthService;
         --border-radius: 50%;
         --box-shadow: var(--ion-BOXSHADOW);
     }
-    /* .flex-child {
-        margin: 2% 5% 2%
-    }   */
-
 </style>
