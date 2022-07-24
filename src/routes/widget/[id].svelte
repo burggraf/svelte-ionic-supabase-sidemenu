@@ -79,7 +79,7 @@
 				<ion-card-title>
 					{#if !editMode}{widget?.name}{/if}
 					{#if editMode}
-						name: <ion-input value={widget.name} on:ionChange={handler} required name="name" type="text" />
+							<ion-label>Name:</ion-label><ion-input value={widget.name} on:ionChange={handler} required name="name" type="text" />
 					{/if}
 				</ion-card-title>
 			</ion-card-header>
@@ -87,14 +87,14 @@
 			<ion-card-content>
 				{#if !editMode}{widget?.description}{/if}
 				{#if editMode}
-				Description: <ion-input value={widget.description} on:ionChange={handler} required name="description" type="text" />
+					<ion-label>Description:</ion-label><ion-input value={widget.description} on:ionChange={handler} required name="description" type="text" />
 				{/if}
 				<br />
 				<br />
 				{#if editMode}
-				price: <ion-input value={widget.price} on:ionChange={handler} required name="price" type="number" />
+					<ion-label>Price:</ion-label><ion-input value={widget.price} on:ionChange={handler} required name="price" type="number" style="width:100px;text-align:right;" />
 				{/if}
-				price: {#if !editMode}{widget?.price.toFixed(2)}{/if}
+				{#if !editMode}price: {widget?.price.toFixed(2)}{/if}
 				<br />
 				created: {new Date(widget?.created_at).toLocaleDateString()}
 				{new Date(widget?.created_at).toLocaleTimeString()}<br />
@@ -107,7 +107,15 @@
 </ion-content>
 
 <style>
+	ion-label {
+		display: inline-block;
+		width: 40%;
+		text-align: right;
+		padding-right: 10px;
+	}
 	ion-input {
+		width: 60%;
 		border: 1px solid;
+		display: inline-block;
 	}
 </style>
