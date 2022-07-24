@@ -19,7 +19,6 @@
     checkHash();
 		SupabaseAuthService.user.subscribe((user: User | null) => {
 			localUser = user
-			//console.log('LOGIN subscribed: user', user)
 		})
 		if (!supabaseAuthService) {
 			supabaseAuthService = SupabaseAuthService.getInstance()
@@ -27,9 +26,7 @@
 	})
 
   const checkHash = () => {
-    //console.log('check hash...')
 		const hash = window.location.hash
-		//console.log('hash', hash)
 		if (hash && hash.substring(0, 1) === '#') {
 			const tokens = hash.substring(1).split('&')
 			const entryPayload: any = {}
@@ -37,32 +34,17 @@
 				const pair = (token + '=').split('=')
 				entryPayload[pair[0]] = pair[1]
 			})
-			//console.log('entryPayload', entryPayload)
 			if (entryPayload?.type === 'recovery') {
-				// password recovery link
-				// return `/resetpassword/${entryPayload.access_token}`;
-				// token = entryPayload.access_token;
 				token = entryPayload.access_token
-				//console.log('token', token)
 				setTimeout(() => {
 					openPasswordResetBox()
 				}, 2500)
-				// console.log('token was set to:', entryPayload.access_token);
-			} else {
-				//console.log('token was not set entryPayload:', entryPayload)
 			}
-		} else {
-			//console.log('no hash was found');
 		}
  }
   const openProfile = async () => {
 		if (profileFunction) {
-			//console.log('profileFunction', profileFunction);
-			// console.log('profileTable', profileTable)
-			// console.log('profileKey', profileKey)
 			profileFunction()
-		} else {
-			// console.log('openProfile: no profileFunction')
 		}
 	}
 	const signOut = async () => {		
@@ -86,12 +68,6 @@
 			},
 			showBackdrop: true,
 			backdropDismiss: true,
-		})
-
-		openLoginModalController.onDidDismiss().then((value) => {
-			if (value.role === 'backdrop') {
-				// console.log('Backdrop clicked')
-			}
 		})
 
 		await openLoginModalController.present()
