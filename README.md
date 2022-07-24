@@ -102,6 +102,8 @@ onDestroy(() => {
 
 ### SupabaseDataService
 
+Get and save data to your Supabase PostgreSQL database.  Data can be cached to localStorage so subsequent loads are faster (loaded from cached and then silently updated from database data after-the-fact).  This also allows the app to work offline to display any cached data automatically (without any necessary interaction from the user).
+
 #### Usage
 
 
