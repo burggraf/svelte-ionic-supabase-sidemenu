@@ -8,7 +8,6 @@
   import { loadingBox } from "$services/loadingMessage";
   export let providers: Provider[] = [];  
   export let onSignIn: Function = () => {};
-
 //   const defineComponent = (tagName: string, customElement: any) => {
 //     if (typeof customElements === "undefined") return;
 
@@ -50,7 +49,7 @@
     "zoom": "rgb(45,140,255)",
     "notion": window.matchMedia('(prefers-color-scheme: dark)').matches ? 'gray' : 'black',
   }
-
+  let showModal = false;
   const closeOverlay = () => {
     modalController.dismiss({ data: Date.now() });
   };
