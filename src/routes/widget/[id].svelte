@@ -6,7 +6,7 @@
 	import UtilityFunctionsService from '$services/utility.functions.service'
 	const utilityFunctionsService = UtilityFunctionsService.getInstance()
 	let cache: any = supabaseDataService.getCache()
-	import { showConfirm } from "$services/alert";
+	import { alert, showConfirm } from "$services/alert";
 
 	// const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}')
 	// $: id = $params.id;
@@ -48,6 +48,17 @@
 		}
 	}
 	const save = async () => {
+		if (widget.name.trim().length === 0) {
+			alert({message: "Please enter a name"})
+			return;
+		}
+		try {
+			parseFloat(widget.price)
+		} catch (err) {
+			alert({message: "Please enter a valid price"})
+			return;
+
+		}
 		const { data, error } = await supabaseDataService.saveWidget(widget)
 		if (error) {
 			console.error(error)
@@ -57,6 +68,7 @@
 				window.location.href = '/widget/' + widget.id
 			} else {
 				cache = supabaseDataService.saveCache({ data })
+				mode = 'view'
 			}
 		}
 	}
@@ -117,7 +129,6 @@
 				<ion-button
 					on:click={() => {
 						save()
-						mode = 'view'
 					}}
 				>
 					<ion-icon slot="icon-only" icon={checkmarkOutline} />
