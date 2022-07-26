@@ -52,7 +52,7 @@ export default class SupabaseDataService {
     localStorage.clear();
   }
   /***********/
-  
+
   public getWidgets = async (options: any = {}) => {
     let loader;
     if (!options.cached) loader = await loadingBox('loading widgets...')
@@ -80,6 +80,13 @@ export default class SupabaseDataService {
     const { data, error } = 
     await supabase.from('widgets')
     .upsert(widget);
+    return { data, error };
+  }
+  public async deleteWidget(id: string) {
+    const { data, error } = 
+    await supabase.from('widgets')
+    .delete()
+    .eq('id', id);
     return { data, error };
   }
   public getSingleRecordById = async (table: string, id: string) => {
