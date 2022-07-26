@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { addOutline } from 'ionicons/icons'
 	import SupabaseDataService from '$services/supabase.data.service'
 	const supabaseDataService = SupabaseDataService.getInstance()
 	const cache: any = supabaseDataService.getCache();
@@ -23,6 +24,11 @@
 			<ion-menu-button />
 		</ion-buttons>
 		<ion-title>Widgets List</ion-title>
+		<ion-buttons slot="end">
+			<ion-button href="/widget/add">
+				<ion-icon slot="icon-only" icon={addOutline} />
+			</ion-button>				
+		</ion-buttons>
 	</ion-toolbar>
 </ion-header>
 
