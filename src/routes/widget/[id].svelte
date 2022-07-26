@@ -107,8 +107,9 @@
 			{#if mode === 'edit'}
 				<ion-button
 					on:click={() => {
-						widget = cache?.data
 						mode = 'view'
+						if (id === 'add') window.location.href = '/TestData';
+						else widget = cache?.data;
 					}}
 				>
 					<ion-icon slot="icon-only" icon={closeOutline} />
