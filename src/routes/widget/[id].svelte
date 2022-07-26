@@ -5,7 +5,7 @@
 	const supabaseDataService = SupabaseDataService.getInstance()
 	import UtilityFunctionsService from '$services/utility.functions.service'
 	const utilityFunctionsService = UtilityFunctionsService.getInstance()
-	const cache: any = supabaseDataService.getCache()
+	let cache: any = supabaseDataService.getCache()
 	import { showConfirm } from "$services/alert";
 
 	// const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}')
@@ -30,7 +30,7 @@
 			console.error(error)
 		} else {
 			widget = data
-			supabaseDataService.saveCache({ data })
+			cache = supabaseDataService.saveCache({ data })
 		}
 		console.log('widget', widget)
 	}
@@ -56,7 +56,7 @@
 			if (id === 'add') {
 				window.location.href = '/widget/' + widget.id
 			} else {
-				supabaseDataService.saveCache({ data })
+				cache = supabaseDataService.saveCache({ data })
 			}
 		}
 	}

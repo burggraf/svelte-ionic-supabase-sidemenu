@@ -44,6 +44,7 @@ export default class SupabaseDataService {
   }
   public saveCache(obj: any) {
     localStorage.setItem(window.location.pathname, JSON.stringify(obj));
+    return obj;
   }
   public clearCache() {
     localStorage.removeItem(window.location.pathname);
