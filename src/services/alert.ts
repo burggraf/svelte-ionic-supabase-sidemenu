@@ -85,6 +85,16 @@
 
     return showAlert(options);
   };
+  export const alert = async (obj: any) => {
+    const options = {
+      header: obj.header || undefined,
+      subHeader: obj.subHeader || undefined,
+      message: obj.message || undefined,
+      buttons: obj.buttons || ["OK"],
+    };
+
+    return showAlert(options);
+  };
 
   export const showConfirm = async (obj: any) => {
     const options = {
