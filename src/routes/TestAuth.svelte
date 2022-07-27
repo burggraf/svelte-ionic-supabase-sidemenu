@@ -7,7 +7,7 @@
   onMount(() => {
     userSubscription = SupabaseAuthService.user.subscribe((newuser: User | null) => {
       user = newuser;
-      console.log('got user:', user)
+      // console.log('got user:', user)
     })
   })
   onDestroy(() => {
