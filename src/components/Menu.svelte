@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { config } from '@ionic/core/dist/collection/global/config';
 	import { IonicConfig } from '@ionic/core/components';
 	import { menuController, registerMenu } from '$ionic/svelte'
 	import { settings, person, informationCircle } from 'ionicons/icons'
@@ -8,7 +7,6 @@
 	import SupabaseAuthService from '$services/supabase.auth.service'
 	import type { User } from '@supabase/supabase-js';
 	import cfg from '../../package.json';
-import { config } from '@ionic/core';
 	let user = null
 	let userSubscription: any
 
@@ -17,7 +15,7 @@ import { config } from '@ionic/core';
 
 		userSubscription = SupabaseAuthService.user.subscribe((newuser: User | null) => {
 			user = newuser
-			console.log('got user:', user)
+			// console.log('got user:', user)
 		})
 	})
 	onDestroy(() => {
