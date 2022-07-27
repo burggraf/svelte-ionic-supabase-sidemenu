@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { IonicConfig } from '@ionic/core/components';
+	// import { IonicConfig } from '@ionic/core/components';
 	import { menuController, registerMenu } from '$ionic/svelte'
 	import { settings, person, informationCircle } from 'ionicons/icons'
 	import { onDestroy, onMount } from 'svelte'
@@ -7,9 +7,12 @@
 	import SupabaseAuthService from '$services/supabase.auth.service'
 	import type { User } from '@supabase/supabase-js';
 	import cfg from '../../package.json';
+	import NetworkService from '$services/network.service';
+
 	let user = null
 	let userSubscription: any
-
+	let onlineSubscription: any
+	let onlineStatus = false;
 	onMount(() => {
 		registerMenu('mainmenu')
 
@@ -17,9 +20,15 @@
 			user = newuser
 			// console.log('got user:', user)
 		})
+		const networkService = NetworkService.getInstance()
+		onlineSubscription = networkService.online.subscribe((online: boolean) => {
+			console.log('got online:', online)
+			onlineStatus = online
+		})
 	})
 	onDestroy(() => {
 		userSubscription.unsubscribe()
+		//onlineSubscription.unsubscribe()
 	})
 
 	const appPages = [
@@ -76,6 +85,7 @@
 				localStorage.clear()
 			}}>clear cache</u
 		><br/>v.{cfg?.version}
+		<br/><div id="online-status">{onlineStatus}</div>
 		<br />&nbsp;
 	</ion-footer>
 </ion-menu>
