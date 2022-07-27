@@ -9,14 +9,11 @@ export default class NetworkService {
           const o = this.myInstance.online;
           window.addEventListener('offline', function(e) { 
             o.next(false);
-            console.log('offline'); 
           });
           window.addEventListener('online', function(e) { 
             o.next(true);
-            console.log('online'); 
           });
-        }
-    
+        }    
         return this.myInstance;
     }
 

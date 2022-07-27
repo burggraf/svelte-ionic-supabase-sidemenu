@@ -85,7 +85,7 @@
 				localStorage.clear()
 			}}>clear cache</u
 		><br/>v.{cfg?.version}
-		<br/><div id="online-status">{onlineStatus}</div>
+		<br/><div id="online-status">{onlineStatus ? "online" : "offline"}</div>
 		<br />&nbsp;
 	</ion-footer>
 </ion-menu>
