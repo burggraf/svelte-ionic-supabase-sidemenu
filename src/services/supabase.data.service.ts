@@ -39,15 +39,50 @@ export default class SupabaseDataService {
   }
 
   /* cache */
-  public getCache = () => {
-    return JSON.parse(localStorage.getItem(window.location.pathname) || '{}');
+  public getCache = (collection?: string, id?: string, id_field_name?: string) => {
+    let item = collection;
+    if (!item) item = window.location.pathname;
+    const list = JSON.parse(localStorage.getItem(item) || (item === window.location.pathname ? '{}': '[]'));
+    if (id) {
+      return list.find(list => list[id_field_name || 'id'] === id);
+    } else {
+      return list;
+    }
+
+    // return JSON.parse(localStorage.getItem(window.location.pathname) || '{}');
   }
-  public saveCache(obj: any) {
-    localStorage.setItem(window.location.pathname, JSON.stringify(obj));
+  public saveCache(obj: any, collection?: string, id_field_name?: string) {
+    let item = collection;
+    if (!item) item = window.location.pathname;
+    const list = JSON.parse(localStorage.getItem(item) || (item === window.location.pathname ? '{}': '[]'));
+    // is obj an array?
+    if (Array.isArray(obj)) { // this is a collection
+      localStorage.setItem(item, JSON.stringify(obj));
+    } else { // this is a single object
+      const index = list.findIndex(list => list[id_field_name || 'id'] === obj[id_field_name || 'id']);
+      if (index > -1) {
+        list[index] = obj;
+      } else {
+        list.push(obj);
+      }
+    }
+    // localStorage.setItem(window.location.pathname, JSON.stringify(obj));
     return obj;
   }
-  public clearCache() {
-    localStorage.removeItem(window.location.pathname);
+  public clearCache(collection?: string, id?: string, id_field_name?: string) {
+    let item = collection;
+    if (!item) item = window.location.pathname;
+    if (id) {
+      const list = JSON.parse(localStorage.getItem(item) || (item === window.location.pathname ? '{}': '[]'));
+      const index = list.findIndex(list => list[id_field_name || 'id'] === id);
+      if (index > -1) {
+        list.splice(index, 1);
+      }
+      localStorage.setItem(item, JSON.stringify(list));
+    } else {
+      localStorage.removeItem(item);
+    }
+    // localStorage.removeItem(window.location.pathname);
   }
   public clearAllCache() {
     localStorage.clear();

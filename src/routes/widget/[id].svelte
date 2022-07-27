@@ -5,13 +5,12 @@
 	const supabaseDataService = SupabaseDataService.getInstance()
 	import UtilityFunctionsService from '$services/utility.functions.service'
 	const utilityFunctionsService = UtilityFunctionsService.getInstance()
-	let cache: any = supabaseDataService.getCache()
 	import { alert, showConfirm } from "$services/alert";
 
-	// const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}')
-	// $: id = $params.id;
 	const id = $params.id
-	let widget: any = cache?.data
+	let cache: any = supabaseDataService.getCache('widgets', id);
+	console.log('cache', cache)
+	let widget: any = cache || {}
 	let mode = 'view'
 	if (id === 'add') {
 		widget = {
@@ -30,7 +29,7 @@
 			console.error(error)
 		} else {
 			widget = data
-			cache = supabaseDataService.saveCache({ data })
+			cache = supabaseDataService.saveCache(widget, 'widgets');
 		}
 		console.log('widget', widget)
 	}
@@ -49,13 +48,13 @@
 	}
 	const save = async () => {
 		if (widget.name.trim().length === 0) {
-			alert({message: "Please enter a name"})
+			alert({header: "Invalid entry", message: "Please enter a name"})
 			return;
 		}
 		try {
 			parseFloat(widget.price)
 		} catch (err) {
-			alert({message: "Please enter a valid price"})
+			alert({header: "Invalid entry", message: "Please enter a valid price"})
 			return;
 
 		}
@@ -67,7 +66,7 @@
 			if (id === 'add') {
 				window.location.href = '/widget/' + widget.id
 			} else {
-				cache = supabaseDataService.saveCache({ data })
+				cache = supabaseDataService.saveCache(data, 'widgets');
 				mode = 'view'
 			}
 		}
@@ -121,7 +120,7 @@
 					on:click={() => {
 						mode = 'view'
 						if (id === 'add') window.location.href = '/TestData';
-						else widget = cache?.data;
+						else widget = cache || {}
 					}}
 				>
 					<ion-icon slot="icon-only" icon={closeOutline} />

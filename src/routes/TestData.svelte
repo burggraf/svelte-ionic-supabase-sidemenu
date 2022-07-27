@@ -2,17 +2,16 @@
 	import { addOutline } from 'ionicons/icons'
 	import SupabaseDataService from '$services/supabase.data.service'
 	const supabaseDataService = SupabaseDataService.getInstance()
-	const cache: any = supabaseDataService.getCache();
-	// const cache: any = JSON.parse(localStorage.getItem(window.location.pathname) || '{}')
+	const cache: any = supabaseDataService.getCache('widgets');
 	console.log('cache', cache)
-	let widgets: any[] = cache.data || []
+	let widgets: any[] = cache || []
 	const getWidgets = async () => {
 		const { data, error } = await supabaseDataService.getWidgets({ cached: widgets.length })
 		if (error) {
 			console.error(error)
 		} else {
 			widgets = data
-			supabaseDataService.saveCache({data})
+			supabaseDataService.saveCache(widgets, 'widgets');
 		}
 	}
 	getWidgets()
