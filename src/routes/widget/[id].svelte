@@ -67,6 +67,7 @@
 				window.location.href = '/widget/' + widget.id
 			} else {
 				cache = supabaseDataService.saveCache(data, 'widgets');
+				widget = data[0]; // update the current widget from the server version
 				mode = 'view'
 			}
 		}
@@ -180,8 +181,9 @@
 				{/if}
 				{#if mode === 'view'}price: {widget?.price?.toFixed(2)}{/if}
 				<br />
-				created: {new Date(widget?.created_at).toLocaleDateString()}
-				{new Date(widget?.created_at).toLocaleTimeString()}<br />
+				created: {new Date(widget?.created_at).toLocaleDateString()} {new Date(widget?.created_at).toLocaleTimeString()}<br/>
+				updated: {new Date(widget?.updated_at).toLocaleDateString()} {new Date(widget?.updated_at).toLocaleTimeString()}
+				<br />
 			</ion-card-content>
 		</ion-card>
 	{/if}
