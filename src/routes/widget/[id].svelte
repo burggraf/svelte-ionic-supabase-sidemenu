@@ -8,7 +8,6 @@
 	import { alert, showConfirm } from "$services/alert";
 
 	const id = $params.id
-	console.log('got widget id', id)
 	let mode = 'view'
 	let cache: any;
 	if (id === 'new') {
@@ -24,10 +23,8 @@
 	} else {
 		cache = supabaseDataService.getCache('widgets', id);
 	}
-	console.log('cache', cache)
 	let widget: any = cache || {}
 	const getWidget = async () => {
-		console.log('fetch widget', id)
 		const { data, error } = await supabaseDataService.getWidget(id, { cached: widget })
 		if (error) {
 			console.error(error)
@@ -35,7 +32,6 @@
 			widget = data
 			cache = supabaseDataService.saveCache(widget, 'widgets');
 		}
-		console.log('widget', widget)
 	}
 	if (mode !== 'edit') getWidget()
 	const handler = (event) => {

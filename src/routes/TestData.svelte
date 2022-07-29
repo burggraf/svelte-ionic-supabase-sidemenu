@@ -5,7 +5,6 @@
 
 	const supabaseDataService = SupabaseDataService.getInstance()
 	const cache: any = supabaseDataService.getCache('widgets');
-	console.log('cache', cache)
 	let widgets: any[] = cache || []
 	const getWidgets = async () => {
 		const { data, error } = await supabaseDataService.getWidgets({ cached: widgets.length })
