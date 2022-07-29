@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { params } from '@roxi/routify'
+	import { params, goto } from '@roxi/routify'
 	import { chevronBackOutline, createOutline, checkmarkOutline, closeOutline, trashOutline } from 'ionicons/icons'
 	import SupabaseDataService from '$services/supabase.data.service'
 	const supabaseDataService = SupabaseDataService.getInstance()
@@ -8,20 +8,24 @@
 	import { alert, showConfirm } from "$services/alert";
 
 	const id = $params.id
-	let cache: any = supabaseDataService.getCache('widgets', id);
-	console.log('cache', cache)
-	let widget: any = cache || {}
+	console.log('got widget id', id)
 	let mode = 'view'
-	if (id === 'add') {
-		widget = {
+	let cache: any;
+	if (id === 'new') {
+		cache = {
 			id: utilityFunctionsService.uuidv4(),
 			description: '',
 			name: '',
 			price: 0,
 			created_at: new Date().toISOString(),
-		}
+			updated_at: new Date().toISOString(),
+		};
 		mode = 'edit'
+	} else {
+		cache = supabaseDataService.getCache('widgets', id);
 	}
+	console.log('cache', cache)
+	let widget: any = cache || {}
 	const getWidget = async () => {
 		console.log('fetch widget', id)
 		const { data, error } = await supabaseDataService.getWidget(id, { cached: widget })
@@ -33,7 +37,7 @@
 		}
 		console.log('widget', widget)
 	}
-	if (mode !== 'add') getWidget()
+	if (mode !== 'edit') getWidget()
 	const handler = (event) => {
 		if (typeof widget[event.target.name] === 'number') {
 			try {
@@ -86,6 +90,9 @@
 			}
 		});
 	}
+	const goBack = () => {
+		$goto(`/TestData`)
+	}
 </script>
 
 <ion-header translucent="true">
@@ -94,7 +101,8 @@
 			<ion-button
 				on:click={() => {
 					//history.back()
-					window.location.href = '/TestData'
+					// window.location.href = '/TestData'
+					goBack();
 				}}
 			>
 				<ion-icon slot="icon-only" icon={chevronBackOutline} />

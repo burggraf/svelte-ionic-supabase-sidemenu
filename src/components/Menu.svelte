@@ -8,7 +8,8 @@
 	import type { User } from '@supabase/supabase-js';
 	import cfg from '../../package.json';
 	import NetworkService from '$services/network.service';
-
+	import {goto} from '@roxi/routify'
+	
 	let user = null
 	let userSubscription: any
 	let onlineSubscription: any
@@ -39,7 +40,8 @@
 	const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders']
 
 	const goMenuItem = (page) => {
-		window.location = page.url
+		$goto(page.url);
+		// window.location = page.url
 		menuController.close('mainmenu')
 	}
 </script>

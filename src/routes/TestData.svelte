@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { addOutline } from 'ionicons/icons'
 	import SupabaseDataService from '$services/supabase.data.service'
+	import {goto, url} from '@roxi/routify'
+
 	const supabaseDataService = SupabaseDataService.getInstance()
 	const cache: any = supabaseDataService.getCache('widgets');
 	console.log('cache', cache)
@@ -15,6 +17,9 @@
 		}
 	}
 	getWidgets()
+	const gotoWidget = (id: string) => {
+		$goto(`/widget/[id]`,{id})
+	}
 </script>
 
 <ion-header translucent="true">
@@ -24,7 +29,7 @@
 		</ion-buttons>
 		<ion-title>Widgets List</ion-title>
 		<ion-buttons slot="end">
-			<ion-button href="/widget/add">
+			<ion-button on:click={() => gotoWidget('new')}>
 				<ion-icon slot="icon-only" icon={addOutline} />
 			</ion-button>				
 		</ion-buttons>
@@ -34,8 +39,9 @@
 <ion-content class="ion-padding">
 	<ion-list>
 		{#each widgets as widget}
-			<ion-item href="/widget/{widget.id}">
-				{widget.name}
+			<!-- <ion-item href={$url("/widget/[id]",{id: widget.id})}> -->
+				<ion-item on:click={() => gotoWidget(widget.id)}>
+					{widget.name}
 				<ion-note slot="end">
 					{widget.price.toFixed(2)}
 				</ion-note>

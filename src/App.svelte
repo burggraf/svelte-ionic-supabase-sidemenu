@@ -8,7 +8,7 @@
   export const load = (url) => router.url.replace(url);
 
   pwaStatusStream.subscribe((status: PWAStatus) => {
-    //console.log("PWA status", status);
+    console.log("PWA status",(+new Date()), status);
 
     if (status.updateFunction) {
       console.log("PWA updating itself in 4 secs......");
