@@ -3,8 +3,6 @@
 	import { chevronBackOutline, createOutline, checkmarkOutline, closeOutline, trashOutline } from 'ionicons/icons'
 	import SupabaseDataService from '$services/supabase.data.service'
 	const supabaseDataService = SupabaseDataService.getInstance()
-	import UtilityFunctionsService from '$services/utility.functions.service'
-	const utilityFunctionsService = UtilityFunctionsService.getInstance()
 	import { alert, showConfirm } from "$services/alert";
 
 	const id = $params.id
@@ -12,7 +10,7 @@
 	let cache: any;
 	if (id === 'new') {
 		cache = {
-			id: utilityFunctionsService.uuidv4(),
+			id: supabaseDataService.gen_random_uuid(),
 			description: '',
 			name: '',
 			price: 0,
