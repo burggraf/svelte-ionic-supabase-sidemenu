@@ -48,8 +48,6 @@ export default class SupabaseDataService {
     } else {
       return list;
     }
-
-    // return JSON.parse(localStorage.getItem(window.location.pathname) || '{}');
   }
   public saveCache(obj: any, collection?: string, id_field_name?: string) {
     let item = collection;
@@ -66,7 +64,6 @@ export default class SupabaseDataService {
         list.push(obj);
       }
     }
-    // localStorage.setItem(window.location.pathname, JSON.stringify(obj));
     return obj;
   }
   public clearCache(collection?: string, id?: string, id_field_name?: string) {
@@ -82,7 +79,6 @@ export default class SupabaseDataService {
     } else {
       localStorage.removeItem(item);
     }
-    // localStorage.removeItem(window.location.pathname);
   }
   public clearAllCache() {
     localStorage.clear();
