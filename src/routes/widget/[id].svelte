@@ -62,14 +62,9 @@
 		if (error) {
 			console.error(error)
 		} else {
-			// widget = data
-			if (id === 'add') {
-				window.location.href = '/widget/' + widget.id
-			} else {
-				cache = supabaseDataService.saveCache(data, 'widgets');
-				widget = data[0]; // update the current widget from the server version
-				mode = 'view'
-			}
+			cache = supabaseDataService.saveCache(data, 'widgets');
+			widget = data[0]; // update the current widget from the server version
+			mode = 'view'
 		}
 	}
 	const deleteWidget = async () => {
@@ -81,13 +76,14 @@
 				if (error) {
 					console.error("Error deleting widget", error)
 				} else {
-					window.location.href = '/TestData'
+					goBack()
+					// window.location.href = '/widgets'
 				}
 			}
 		});
 	}
 	const goBack = () => {
-		$goto(`/TestData`)
+		$goto(`/widgets`)
 	}
 </script>
 
@@ -97,7 +93,7 @@
 			<ion-button
 				on:click={() => {
 					//history.back()
-					// window.location.href = '/TestData'
+					// window.location.href = '/widgets'
 					goBack();
 				}}
 			>
@@ -124,7 +120,7 @@
 				<ion-button
 					on:click={() => {
 						mode = 'view'
-						if (id === 'add') window.location.href = '/TestData';
+						if (id === 'add') goBack() // window.location.href = '/TestData';
 						else widget = cache || {}
 					}}
 				>

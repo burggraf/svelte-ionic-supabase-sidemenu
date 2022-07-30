@@ -34,7 +34,7 @@
 
 	const appPages = [
 		{ title: 'Current User', url: '/TestAuth', icon: person, requireLogin: true },
-		{ title: 'Widgets', url: '/TestData', icon: settings, requireLogin: false },
+		{ title: 'Widgets', url: '/widgets', icon: settings, requireLogin: false },
 		{ title: 'Info', url: '/', icon: informationCircle, requireLogin: false },
 	]
 	const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders']

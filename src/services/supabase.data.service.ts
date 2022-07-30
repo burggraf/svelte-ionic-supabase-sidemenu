@@ -38,7 +38,9 @@ export default class SupabaseDataService {
         VITE_SUPABASE_KEY);
   }
 
-  /* cache */
+  /***********/
+  /*  cache  */
+  /***********/
   public getCache = (collection?: string, id?: string, id_field_name?: string) => {
     let item = collection;
     if (!item) item = window.location.pathname;
