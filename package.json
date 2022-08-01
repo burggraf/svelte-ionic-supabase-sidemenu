@@ -32,6 +32,7 @@
   "dependencies": {
     "@ionic/core": "^6.1.8",
     "@supabase/supabase-js": "^1.35.4",
+    "ionicons": "^6.0.2",
     "localforage": "^1.10.0",
     "pocketbase": "^0.1.2",
     "routify": "^1.2.7",
