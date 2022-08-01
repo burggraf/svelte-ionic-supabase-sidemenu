@@ -36,7 +36,8 @@
     "localforage": "^1.10.0",
     "pocketbase": "^0.1.2",
     "routify": "^1.2.7",
-    "rxjs": "^7.5.6"
+    "rxjs": "^7.5.6",
+    "workbox-window": "^6.5.4"
   },
   "routify": {
     "pages": "./src/routes"
