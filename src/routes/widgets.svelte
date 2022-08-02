@@ -1,21 +1,19 @@
 <script lang="ts">
+	import { onDestroy } from 'svelte';
 	import { addOutline } from 'ionicons/icons'
 	import SupabaseDataService from '$services/supabase.data.service'
 	import {goto, url} from '@roxi/routify'
-
 	const supabaseDataService = SupabaseDataService.getInstance()
-	const cache: any = supabaseDataService.getCache('widgets');
-	let widgets: any[] = cache || []
-	const getWidgets = async () => {
-		const { data, error } = await supabaseDataService.getWidgets({ cached: widgets.length })
-		if (error) {
-			console.error(error)
-		} else {
-			widgets = data
-			supabaseDataService.saveCache(widgets, 'widgets');
-		}
-	}
-	getWidgets()
+
+	let widgets: any[]; // = cache || []
+	const recordset = supabaseDataService.getDataSubscription('widgets').subscribe((recordset) => {
+		console.log('got recordset:', recordset)
+		widgets = recordset;
+	})
+
+	onDestroy(() => {
+		recordset.unsubscribe()
+	})
 	const gotoWidget = (id: string) => {
 		$goto(`/widget/[id]`,{id})
 	}

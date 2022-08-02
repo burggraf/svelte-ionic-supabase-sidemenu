@@ -136,6 +136,37 @@ export default {
     },
     {
       "meta": {},
+      "id": "_default_widget2",
+      "name": "widget2",
+      "module": false,
+      "file": {
+        "path": "src/routes/widget2",
+        "dir": "src/routes",
+        "base": "widget2",
+        "ext": "",
+        "name": "widget2"
+      },
+      "children": [
+        {
+          "meta": {
+            "dynamic": true
+          },
+          "id": "_default_widget2__id__svelte",
+          "name": "[id]",
+          "module": () => import('../src/routes/widget2/[id].svelte'),
+          "file": {
+            "path": "src/routes/widget2/[id].svelte",
+            "dir": "src/routes/widget2",
+            "base": "[id].svelte",
+            "ext": ".svelte",
+            "name": "[id]"
+          },
+          "children": []
+        }
+      ]
+    },
+    {
+      "meta": {},
       "id": "_default_widgets_svelte",
       "name": "widgets",
       "module": () => import('../src/routes/widgets.svelte'),

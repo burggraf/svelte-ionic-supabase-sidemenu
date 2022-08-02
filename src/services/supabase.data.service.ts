@@ -1,5 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { loadingBox } from '$services/loadingMessage'
+import { BehaviorSubject } from 'rxjs';
 
 const VITE_SUPABASE_URL: string = import.meta.env.VITE_SUPABASE_URL
 const VITE_SUPABASE_KEY: string = import.meta.env.VITE_SUPABASE_KEY
@@ -11,9 +12,6 @@ export default class SupabaseDataService {
 
 	static getInstance() {
 		if (this.myInstance === null) {
-      // console.log('********************************************');
-      // console.log('Creating new instance of SupabaseDataService');
-      // console.log('********************************************');
       if (VITE_SUPABASE_URL && VITE_SUPABASE_KEY) {
         this.myInstance = new this();
         this.myInstance.connect();
@@ -47,56 +45,62 @@ export default class SupabaseDataService {
   }
   public uuid_generate_v4 = this.gen_random_uuid;
 
+  public static datasets: any = {};
+
+  public getDataSubscription = (item: string, options?: object) => {
+    const name = item + (options ? ':' + JSON.stringify(options) : '');
+    SupabaseDataService.datasets[name] = new BehaviorSubject<any[]>([]);
+    this.updateDataSubscription(item, options);
+    return SupabaseDataService.datasets[name];
+  }
+  public updateDataSubscription = async (item: string, options?: object) => {
+    const name = item + (options ? ':' + JSON.stringify(options) : '');
+    const cache: any = this.loadCache(name);  
+    if (cache !== null) {
+      SupabaseDataService.datasets[name].next(cache);
+    }
+    const loadFunction: Function = this[`load_${item}`];
+    if (!loadFunction) {
+      console.error('supabaseDataService: missing function load_' + item);
+      return;
+    }
+    if (!options) options = {cached: (cache !== null)}
+    else options = {...options, cached: (cache !== null)}
+
+    const { data, error } = await loadFunction(options);
+    if (error) {
+      console.error('updateDataSubscription: error', error);
+    } else {
+      SupabaseDataService.datasets[name].next(data);
+      this.saveCache(data, name);
+    }
+  }
+  
   /***********/
   /*  cache  */
   /***********/
-  public getCache = (collection?: string, id?: string, id_field_name?: string) => {
-    let item = collection;
-    if (!item) item = window.location.pathname;
-    const list = JSON.parse(localStorage.getItem(item) || (item === window.location.pathname ? '{}': '[]'));
-    if (id) {
-      return list.find(list => list[id_field_name || 'id'] === id);
+  public loadCache = (name: string) => {
+    const cache = localStorage.getItem(name);
+    if (cache) {
+      return JSON.parse(cache);
     } else {
-      return list;
+      return null;
     }
   }
-  public saveCache(obj: any, collection?: string, id_field_name?: string) {
-    let item = collection;
-    if (!item) item = window.location.pathname;
-    const list = JSON.parse(localStorage.getItem(item) || (item === window.location.pathname ? '{}': '[]'));
-    // is obj an array?
-    if (Array.isArray(obj)) { // this is a collection
-      localStorage.setItem(item, JSON.stringify(obj));
-    } else { // this is a single object
-      const index = list.findIndex(list => list[id_field_name || 'id'] === obj[id_field_name || 'id']);
-      if (index > -1) {
-        list[index] = obj;
-      } else {
-        list.push(obj);
-      }
-    }
+  public saveCache(obj: any, name: string) {
+    localStorage.setItem(name, JSON.stringify(obj));
     return obj;
   }
-  public clearCache(collection?: string, id?: string, id_field_name?: string) {
-    let item = collection;
-    if (!item) item = window.location.pathname;
-    if (id) {
-      const list = JSON.parse(localStorage.getItem(item) || (item === window.location.pathname ? '{}': '[]'));
-      const index = list.findIndex(list => list[id_field_name || 'id'] === id);
-      if (index > -1) {
-        list.splice(index, 1);
-      }
-      localStorage.setItem(item, JSON.stringify(list));
-    } else {
-      localStorage.removeItem(item);
-    }
+
+  public clearCache(name: string) {
+      localStorage.removeItem(name);
   }
   public clearAllCache() {
     localStorage.clear();
   }
   /***********/
 
-  public getWidgets = async (options: any = {}) => {
+  public load_widgets = async (options: any = {}) => {
     let loader;
     if (!options.cached) loader = await loadingBox('loading widgets...')
     if (!this.isConnected()) { await this.connect() }
@@ -105,33 +109,33 @@ export default class SupabaseDataService {
     return { data, error };
   }
 
-  public getWidget = async (id: string, options: any = {}) => {
+  public load_widget = async (options: any = {}) => {
     let loader;
     if (!options.cached) loader = await loadingBox('loading widget...')
     if (!this.isConnected()) { await this.connect() }
     const { data, error } = await supabase.from('widgets')
       .select()
-      .eq('id', id)
+      .eq('id', options.id)
       .limit(1)
       .single()
     if (!options.cached) loader.dismiss();
     return { data, error };
   }
 
-  public async saveWidget(widget: any) {
-    console.log('saveWidget', widget);
+  public async save_widget(widget: any) {
     const { data, error } = 
     await supabase.from('widgets')
     .upsert(widget);
     return { data, error };
   }
-  public async deleteWidget(id: string) {
+  public async delete_widget(id: string) {
     const { data, error } = 
     await supabase.from('widgets')
     .delete()
     .eq('id', id);
     return { data, error };
   }
+
   public getSingleRecordById = async (table: string, id: string) => {
       const { data, error } = 
       await supabase.from(table)
@@ -165,7 +169,6 @@ export default class SupabaseDataService {
   }
 
   public updateUserSetting = async (name: string, value: any) => {
-    console.log('updateUserSetting', name, value);
     const newData: any = {};
     newData[name] = value;
     const { user, error } = await supabase.auth.update({ 

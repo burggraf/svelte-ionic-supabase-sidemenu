@@ -1,4 +1,7 @@
 <script lang="ts">
+	/**
+	 this version looks up each individual widget instead of using the widgets recordset
+	*/
 	import { params, goto } from '@roxi/routify'
 	import { chevronBackOutline, createOutline, checkmarkOutline, closeOutline, trashOutline } from 'ionicons/icons'
 	import { alert, showConfirm } from "$services/alert";
@@ -9,11 +12,9 @@
 	let id = $params.id
 	let mode = 'view'
 
-	let widgets: any[]; // = cache || []
 	let widget: any = {}; // = cache || {}
 
-	const recordset = supabaseDataService.getDataSubscription('widgets').subscribe((recordset) => {
-		widgets = recordset;		
+	const recordset = supabaseDataService.getDataSubscription('widget',{id}).subscribe((rec) => {
 		if (id === 'new') {
 			widget = {
 				id: supabaseDataService.gen_random_uuid(),
@@ -25,7 +26,7 @@
 			};
 			mode = 'edit'
 		} else {
-			widget = widgets.find(w => w.id === id) || {}			
+			widget = rec || {}			
 		}
 	})
 
@@ -62,7 +63,6 @@
 			console.error('save_widget error', error)
 		} else {
 			id = widget.id;
-			mode = 'view';
 			supabaseDataService.updateDataSubscription('widgets');
 		}
 	}
