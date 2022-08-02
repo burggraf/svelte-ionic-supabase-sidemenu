@@ -7,7 +7,6 @@
 
 	let widgets: any[]; // = cache || []
 	const recordset = supabaseDataService.getDataSubscription('widgets').subscribe((recordset) => {
-		console.log('got recordset:', recordset)
 		widgets = recordset;
 	})
 
