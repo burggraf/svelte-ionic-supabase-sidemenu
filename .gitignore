@@ -32,3 +32,4 @@ package-lock.json
 .env.prod
 .env.staging
 .env.dev
+.vercel
