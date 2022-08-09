@@ -1,11 +1,19 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { loadingBox } from '$services/loadingMessage'
 import { BehaviorSubject } from 'rxjs';
+import NetworkService from '$services/network.service';
 
 const VITE_SUPABASE_URL: string = import.meta.env.VITE_SUPABASE_URL
 const VITE_SUPABASE_KEY: string = import.meta.env.VITE_SUPABASE_KEY
 
+
 let supabase: SupabaseClient;
+
+let isOnline: boolean = undefined; // unknown status
+const networkService = NetworkService.getInstance()
+networkService.online.subscribe((online: boolean) => {
+  isOnline = online
+})
 
 export default class SupabaseDataService {
 	static myInstance:any = null;
@@ -58,6 +66,10 @@ export default class SupabaseDataService {
     const cache: any = this.loadCache(name);  
     if (cache !== null) {
       SupabaseDataService.datasets[name].next(cache);
+    }
+    if (!isOnline) {
+      // we are not online, so we will not update the data subscription
+      return;
     }
     const loadFunction: Function = this[`load_${item}`];
     if (!loadFunction) {
