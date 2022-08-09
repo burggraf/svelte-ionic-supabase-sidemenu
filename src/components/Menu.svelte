@@ -49,8 +49,9 @@
 <ion-menu content-id="main" menu-id="mainmenu">
 	<ion-content class="ion-padding">
 		<ion-list id="inbox-list">
-			<ion-list-header>Menu</ion-list-header>
-			<ion-note>tagline</ion-note>
+			<!-- <ion-list-header>Menu</ion-list-header> -->
+			<h4 style="margin-top:0px;text-align:center;color:var(--ion-color-primary)"><strong>Menu2</strong></h4>
+			<p style="padding-bottom:5px;text-align:center;color:var(--ion-color-medium)">tagline</p>
 			<ion-menu-toggle auto-hide="false">
 				<Login
 					providers={['google', 'facebook', 'twitter']}
