@@ -2,7 +2,7 @@
 	import { onDestroy } from 'svelte';
 	import { addOutline } from 'ionicons/icons'
 	import SupabaseDataService from '$services/supabase.data.service'
-	import {goto, url} from '@roxi/routify'
+	import {goto } from '@roxi/routify'
 	const supabaseDataService = SupabaseDataService.getInstance()
 
 	let widgets: any[]; // = cache || []

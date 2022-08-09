@@ -8,7 +8,7 @@
 	import type { User } from '@supabase/supabase-js';
 	import cfg from '../../package.json';
 	import NetworkService from '$services/network.service';
-	import {goto} from '@roxi/routify'
+	import {goto, isActive} from '@roxi/routify'
 	
 	let user = null
 	let userSubscription: any
@@ -51,7 +51,6 @@
 		<ion-list id="inbox-list">
 			<ion-list-header>Menu</ion-list-header>
 			<ion-note>tagline</ion-note>
-
 			<ion-menu-toggle auto-hide="false">
 				<Login
 					providers={['google', 'facebook', 'twitter']}
@@ -72,6 +71,7 @@
 						}}
 						lines="none"
 						detail="false"
+						style={$isActive(p.url) && p.url.length > 1 ? "font-weight:bold" : ""}
 					>
 						<ion-icon slot="start" icon={p.icon} />
 						<ion-label>{p.title}</ion-label>
@@ -101,6 +101,11 @@
 	}
 	ion-menu ion-content {
 		--background: var(--ion-item-background, var(--ion-background-color, #fff));
+	}
+
+	ion-item:hover {
+		--background: var(--ion-color-light);
+		font-weight: bold;
 	}
 
 	ion-menu.md ion-content {
