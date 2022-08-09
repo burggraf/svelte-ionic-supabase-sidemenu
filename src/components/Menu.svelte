@@ -71,7 +71,7 @@
 						}}
 						lines="none"
 						detail="false"
-						style={$isActive(p.url) && p.url.length > 1 ? "font-weight:bold" : ""}
+						class={$isActive(p.url) && p.url.length > 1 ? "active-item" : ""}
 					>
 						<ion-icon slot="start" icon={p.icon} />
 						<ion-label>{p.title}</ion-label>
@@ -105,6 +105,10 @@
 
 	ion-item:hover {
 		--background: var(--ion-color-light);
+		font-weight: bold;
+	}
+
+	.active-item {
 		font-weight: bold;
 	}
 
