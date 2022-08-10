@@ -63,7 +63,8 @@
 			console.error('save_widget error', error)
 		} else {
 			id = widget.id;
-			supabaseDataService.updateDataSubscription('widgets');
+			mode = 'view';
+			supabaseDataService.updateDataSubscription('widget',{id});
 		}
 	}
 	const delete_widget = async () => {
