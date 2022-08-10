@@ -11,9 +11,6 @@ let supabase: SupabaseClient;
 
 let isOnline: boolean = undefined; // unknown status
 const networkService = NetworkService.getInstance()
-networkService.online.subscribe((online: boolean) => {
-  isOnline = online
-})
 
 export default class SupabaseDataService {
 	static myInstance:any = null;
@@ -65,6 +62,7 @@ export default class SupabaseDataService {
     const name = item + (options ? ':' + JSON.stringify(options) : '');
     const cache: any = this.loadCache(name);  
     if (cache !== null) {
+      console.log('updateDataSubscription: next(cache)', cache);
       SupabaseDataService.datasets[name].next(cache);
     }
     if (!isOnline) {
@@ -110,8 +108,69 @@ export default class SupabaseDataService {
   public clearAllCache() {
     localStorage.clear();
   }
-  /***********/
+  /******************/
+  /* queued updates */
+  /******************/
+  public queueUpdate(functionName: string, table:string, record: any) {
+    const queue = JSON.parse(localStorage.getItem('update-queue') || '[]');
+    queue.push({functionName, table, record, timestamp: +Date.now()});
+    localStorage.setItem('update-queue', JSON.stringify(queue));
+  }
+  public processQueue = async () => {
+    if (isOnline) {
+      const queue = JSON.parse(localStorage.getItem('update-queue') || '[]');
+      if (queue.length > 0) {
+        const { functionName, table, record, timestamp } = queue.shift();
+        console.log('processQueue:', functionName, table, record, `timestamp: ${timestamp}`);
+        const { error } = await this[functionName](table, record);
+        if (error) {
+          console.error('error processing update queue', error);
+          console.error('functionName', functionName);
+          console.error('table', table)
+          console.error('record', record);
+          console.error('timestamp', timestamp);
+          return;
+        } else {
+          localStorage.setItem('update-queue', JSON.stringify(queue));
+          this.processQueue();
+        }
+      } else {
+        console.log('processQueue: queue is empty');
+      }
+    }
+  }
+  /**********************************/
+  /* generic save and delete record */
+  /**********************************/
 
+  public async saveRecord(table: string, record: any) {
+    if (isOnline) {
+      const { data, error } = 
+      await supabase.from(table)
+      .upsert(record);
+      return { data, error };  
+    } else {
+      this.queueUpdate('saveRecord', table, record);
+      return { data: null, error: null };
+    }    
+  }
+  public async deleteRecord(table: string, id: string) {
+    if (isOnline) {
+      const { data, error } = 
+      await supabase.from(table)
+      .delete()
+      .eq('id', id);
+      return { data, error };  
+    } else {
+      console.log('deleteRecord: offline, queuing delete');
+      this.queueUpdate('deleteRecord', table, id);
+      return { data: null, error: null };
+    }
+
+  }
+
+  /**********************************/
+  
   public load_widgets = async (options: any = {}) => {
     let loader;
     if (!options.cached) loader = await loadingBox('loading widgets...')
@@ -135,16 +194,11 @@ export default class SupabaseDataService {
   }
 
   public async save_widget(widget: any) {
-    const { data, error } = 
-    await supabase.from('widgets')
-    .upsert(widget);
+    const { data, error} = await this.saveRecord('widgets', widget);
     return { data, error };
   }
   public async delete_widget(id: string) {
-    const { data, error } = 
-    await supabase.from('widgets')
-    .delete()
-    .eq('id', id);
+    const { data, error} = await this.deleteRecord('widgets', id);
     return { data, error };
   }
 
@@ -195,3 +249,12 @@ export default class SupabaseDataService {
   }
 
 }
+
+const supabaseDataService = SupabaseDataService.getInstance()
+networkService.online.subscribe((online: boolean) => {
+  isOnline = online
+  if (isOnline) {
+    console.log('supabase: online -- process pending queue')
+    supabaseDataService.processQueue();
+  }
+})

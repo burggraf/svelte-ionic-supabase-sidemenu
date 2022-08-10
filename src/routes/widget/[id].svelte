@@ -55,15 +55,30 @@
 		} catch (err) {
 			alert({header: "Invalid entry", message: "Please enter a valid price"})
 			return;
-
 		}
 		const { error } = await supabaseDataService.save_widget(widget)
 		if (error) {
 			console.error('save_widget error', error)
-		} else {
+		} else {	
+
+			// update widgets cache
+			const index = widgets.findIndex(w => w.id === widget.id)
+			if (index > -1) {
+				widgets[index] = widget
+			} else {
+				widgets.push(widget)
+			}
+			console.log('updated widgets cache', widgets)
+			console.log('saving cache while offline')
+			supabaseDataService.saveCache(widgets, 'widgets')
+
 			id = widget.id;
 			mode = 'view';
+			console.log('update widget subscription now')
+			console.log('widget is currently', widget)
 			supabaseDataService.updateDataSubscription('widgets');
+			console.log('widget is now', widget)
+			console.log('widgets is now', widgets)
 		}
 	}
 	const delete_widget = async () => {
@@ -75,6 +90,13 @@
 				if (error) {
 					console.error("Error deleting widget", error)
 				} else {
+					// update widgets cache
+					const index = widgets.findIndex(w => w.id === widget.id)
+					if (index > -1) {
+						widgets.splice(index, 1)
+					}
+					supabaseDataService.saveCache(widgets, 'widgets')
+					supabaseDataService.updateDataSubscription('widgets');
 					goBack()
 					// window.location.href = '/widgets'
 				}
