@@ -25,7 +25,14 @@
 			};
 			mode = 'edit'
 		} else {
-			widget = widgets.find(w => w.id === id) || {}			
+			console.log('searching for ', id);
+			console.log('widgets', widgets);
+			if (widgets && widgets.length > 0) {
+				widget = widgets.find((w) => w.id === id) || {}			
+			} else {
+				console.error(`could not find widget ${id}, widgets:`, widgets);
+				console.log(widgets[1]);
+			}
 		}
 	})
 
@@ -62,23 +69,13 @@
 		} else {	
 
 			// update widgets cache
-			const index = widgets.findIndex(w => w.id === widget.id)
-			if (index > -1) {
-				widgets[index] = widget
-			} else {
-				widgets.push(widget)
-			}
-			console.log('updated widgets cache', widgets)
-			console.log('saving cache while offline')
+			console.log('calling updateCollection',widgets, widget);
+			widgets = await supabaseDataService.updateCollection(widgets, widget);
+			console.log('widgets', widgets);
 			supabaseDataService.saveCache(widgets, 'widgets')
-
 			id = widget.id;
 			mode = 'view';
-			console.log('update widget subscription now')
-			console.log('widget is currently', widget)
 			supabaseDataService.updateDataSubscription('widgets');
-			console.log('widget is now', widget)
-			console.log('widgets is now', widgets)
 		}
 	}
 	const delete_widget = async () => {
@@ -91,12 +88,12 @@
 					console.error("Error deleting widget", error)
 				} else {
 					// update widgets cache
-					const index = widgets.findIndex(w => w.id === widget.id)
-					if (index > -1) {
-						widgets.splice(index, 1)
-					}
+					console.log('calling deleteFromCollection', widgets, widget);
+					widgets = await supabaseDataService.deleteFromCollection(widgets, widget);
+					console.log('widgets', widgets);
 					supabaseDataService.saveCache(widgets, 'widgets')
-					supabaseDataService.updateDataSubscription('widgets');
+					// supabaseDataService.updateDataSubscription('widgets');
+					// $goto('/widgets')
 					goBack()
 					// window.location.href = '/widgets'
 				}

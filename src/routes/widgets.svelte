@@ -34,15 +34,21 @@
 
 <ion-content class="ion-padding">
 	<ion-list>
-		{#each widgets as widget}
-			<!-- <ion-item href={$url("/widget/[id]",{id: widget.id})}> -->
-				<ion-item on:click={() => gotoWidget(widget.id)}>
-					{widget.name}
-				<ion-note slot="end">
-					{widget.price.toFixed(2)}
-				</ion-note>
+		{#if widgets && widgets.length }
+			{#each widgets as widget}
+				<!-- <ion-item href={$url("/widget/[id]",{id: widget.id})}> -->
+					<ion-item on:click={() => gotoWidget(widget.id)}>
+						{widget.name}
+					<ion-note slot="end">
+						{widget.price.toFixed(2)}
+					</ion-note>
+				</ion-item>
+			{/each}
+		{:else}
+			<ion-item>
+				No widgets found
 			</ion-item>
-		{/each}
+		{/if}
 	</ion-list>
 </ion-content>
 

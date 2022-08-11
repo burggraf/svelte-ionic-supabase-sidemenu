@@ -2,6 +2,7 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { loadingBox } from '$services/loadingMessage'
 import { BehaviorSubject } from 'rxjs';
 import NetworkService from '$services/network.service';
+import { toast } from '$services/toast';
 
 const VITE_SUPABASE_URL: string = import.meta.env.VITE_SUPABASE_URL
 const VITE_SUPABASE_KEY: string = import.meta.env.VITE_SUPABASE_KEY
@@ -62,13 +63,19 @@ export default class SupabaseDataService {
     const name = item + (options ? ':' + JSON.stringify(options) : '');
     const cache: any = this.loadCache(name);  
     if (cache !== null) {
-      console.log('updateDataSubscription: next(cache)', cache);
       SupabaseDataService.datasets[name].next(cache);
     }
     if (!isOnline) {
       // we are not online, so we will not update the data subscription
       return;
     }
+    /**
+    supabase.data.service.ts?t=1660228357757:71 
+    updateDataSubscription: error 
+    {message: 'FetchError: Failed to fetch', details: '', hint: '', code: ''}
+
+     * 
+     */
     const loadFunction: Function = this[`load_${item}`];
     if (!loadFunction) {
       console.error('supabaseDataService: missing function load_' + item);
@@ -77,12 +84,22 @@ export default class SupabaseDataService {
     if (!options) options = {cached: (cache !== null)}
     else options = {...options, cached: (cache !== null)}
 
-    const { data, error } = await loadFunction(options);
-    if (error) {
-      console.error('updateDataSubscription: error', error);
-    } else {
-      SupabaseDataService.datasets[name].next(data);
-      this.saveCache(data, name);
+    try {
+      const { data, error } = await loadFunction(options);
+      if (error) {
+        console.error('updateDataSubscription: error', error);
+        if (error.message === 'FetchError: Failed to fetch') {
+          console.error('setting online to false');
+          isOnline = false;
+          toast('FetchError, setting isOnline to false','danger');
+        }
+      } else {
+        SupabaseDataService.datasets[name].next(data);
+        this.saveCache(data, name);
+      }  
+    } catch (error) {
+      console.error('error executing loadFunction, setting isOnline false, error', error);
+      isOnline = false;
     }
   }
   
@@ -162,15 +179,34 @@ export default class SupabaseDataService {
       .eq('id', id);
       return { data, error };  
     } else {
-      console.log('deleteRecord: offline, queuing delete');
       this.queueUpdate('deleteRecord', table, id);
       return { data: null, error: null };
     }
-
   }
 
-  /**********************************/
-  
+  /*****************************/
+  /* update/delete collection */
+  /*****************************/
+
+  public updateCollection = async (collection: any[], record: any, id_field: string = 'id') => {
+    const index = collection.findIndex(w => w[id_field] === record[id_field]);
+    if (index > -1) {
+      collection[index] = record
+    } else {
+      collection.push(record)
+    }
+    return collection;
+  }
+  public deleteFromCollection = async (collection: any[], record: any, id_field: string = 'id') => {
+    const index = collection.findIndex(w => w[id_field] === 
+      (typeof record === 'string' ? record : record[id_field]));
+    if (index > -1) {
+      collection.splice(index, 1);
+    }
+    return collection;
+  }
+  /*****************************/
+
   public load_widgets = async (options: any = {}) => {
     let loader;
     if (!options.cached) loader = await loadingBox('loading widgets...')
@@ -254,7 +290,7 @@ const supabaseDataService = SupabaseDataService.getInstance()
 networkService.online.subscribe((online: boolean) => {
   isOnline = online
   if (isOnline) {
-    console.log('supabase: online -- process pending queue')
+    console.log('supabase: app came online -- process pending queue')
     supabaseDataService.processQueue();
   }
 })
