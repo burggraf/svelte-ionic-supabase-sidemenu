@@ -89,17 +89,14 @@ export default class SupabaseDataService {
       if (error) {
         console.error('updateDataSubscription: error', error);
         if (error.message === 'FetchError: Failed to fetch') {
-          console.error('setting online to false');
-          isOnline = false;
-          toast('FetchError, setting isOnline to false','danger');
+          // handle fetch error here
         }
       } else {
         SupabaseDataService.datasets[name].next(data);
         this.saveCache(data, name);
       }  
     } catch (error) {
-      console.error('error executing loadFunction, setting isOnline false, error', error);
-      isOnline = false;
+      // handle fetch error here
     }
   }
   

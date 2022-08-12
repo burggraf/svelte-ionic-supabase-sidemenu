@@ -91,6 +91,20 @@ export default {
     },
     {
       "meta": {},
+      "id": "_default_ping_svelte",
+      "name": "ping",
+      "module": () => import('../src/routes/ping.svelte'),
+      "file": {
+        "path": "src/routes/ping.svelte",
+        "dir": "src/routes",
+        "base": "ping.svelte",
+        "ext": ".svelte",
+        "name": "ping"
+      },
+      "children": []
+    },
+    {
+      "meta": {},
       "id": "_default_redirect_svelte",
       "name": "redirect",
       "module": () => import('../src/routes/redirect.svelte'),

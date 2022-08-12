@@ -17,5 +17,21 @@ export default class NetworkService {
         return this.myInstance;
     }
 
+    public ping = async (page_name: string = '/ping') => {
+      fetch(`${window.location.origin}${page_name}`).then((result) => {
+				if (result.status === 200) {
+					console.log(result);
+          return true;
+				} else {
+					console.error('ping failed', result)
+          return false;
+				}			
+      }).catch((err) => {
+        console.log('fetch error', err);
+        console.log('do something here');
+        return false;
+      })
+    }
+
 }
 
