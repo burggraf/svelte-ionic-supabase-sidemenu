@@ -5,15 +5,19 @@
 	import { onDestroy, onMount } from 'svelte'
 	import Login from '$components/Login/Login.svelte'
 	import SupabaseAuthService from '$services/supabase.auth.service'
-	import type { User } from '@supabase/supabase-js';
-	import cfg from '../../package.json';
-	import NetworkService from '$services/network.service';
-	import {goto, isActive} from '@roxi/routify'
-	
+	import type { User } from '@supabase/supabase-js'
+	import cfg from '../../package.json'
+	import NetworkService from '$services/network.service'
+	import { goto, isActive } from '@roxi/routify'
+	import { toast } from '$services/toast'
+	import { showConfirm } from '$services/alert'
+
 	let user = null
 	let userSubscription: any
 	let onlineSubscription: any
-	let onlineStatus = false;
+	let onlineStatus = false
+	const networkService = NetworkService.getInstance()
+
 	onMount(() => {
 		registerMenu('mainmenu')
 
@@ -21,7 +25,7 @@
 			user = newuser
 			// console.log('got user:', user)
 		})
-		const networkService = NetworkService.getInstance()
+		// const networkService = NetworkService.getInstance()
 		onlineSubscription = networkService.online.subscribe((online: boolean) => {
 			console.log('got online:', online)
 			onlineStatus = online
@@ -40,7 +44,7 @@
 	const labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders']
 
 	const goMenuItem = (page) => {
-		$goto(page.url);
+		$goto(page.url)
 		// window.location = page.url
 		menuController.close('mainmenu')
 	}
@@ -50,12 +54,16 @@
 	<ion-content class="ion-padding">
 		<ion-list id="inbox-list">
 			<!-- <ion-list-header>Menu</ion-list-header> -->
-			<h4 style="margin-top:0px;text-align:center;color:var(--ion-color-primary)"><strong>Menu2</strong></h4>
+			<h4 style="margin-top:0px;text-align:center;color:var(--ion-color-primary)">
+				<strong>Menu2</strong>
+			</h4>
 			<p style="padding-bottom:5px;text-align:center;color:var(--ion-color-medium)">tagline</p>
 			<ion-menu-toggle auto-hide="false">
 				<Login
 					providers={['google', 'facebook', 'twitter']}
-					onSignOut={()=>{window.location.href='/';}}
+					onSignOut={() => {
+						window.location.href = '/'
+					}}
 					profileFunction={() => {
 						//console.log('do some profileFunction here')
 					}}
@@ -64,20 +72,20 @@
 
 			{#each appPages as p, i}
 				{#if !p.requireLogin || user}
-				<ion-menu-toggle auto-hide="false">
-					<ion-item
-						routerDirection="root"
-						on:click={() => {
-							goMenuItem(p)
-						}}
-						lines="none"
-						detail="false"
-						class={$isActive(p.url) && p.url.length > 1 ? "active-item" : ""}
-					>
-						<ion-icon slot="start" icon={p.icon} />
-						<ion-label>{p.title}</ion-label>
-					</ion-item>
-				</ion-menu-toggle>
+					<ion-menu-toggle auto-hide="false">
+						<ion-item
+							routerDirection="root"
+							on:click={() => {
+								goMenuItem(p)
+							}}
+							lines="none"
+							detail="false"
+							class={$isActive(p.url) && p.url.length > 1 ? 'active-item' : ''}
+						>
+							<ion-icon slot="start" icon={p.icon} />
+							<ion-label>{p.title}</ion-label>
+						</ion-item>
+					</ion-menu-toggle>
 				{/if}
 			{/each}
 		</ion-list>
@@ -87,9 +95,31 @@
 			on:click={() => {
 				localStorage.clear()
 			}}>clear cache</u
-		><br/>v.{cfg?.version}
-		<br/><div id="online-status">{onlineStatus ? "online" : "offline"}</div>
-		<br />&nbsp;
+		><br />v.{cfg?.version}
+		<br />
+		<ion-item
+			on:click={async (e) => {
+				await showConfirm({
+					header: 'Manually set online status',
+					message: `Force online status to <b>${onlineStatus ? 'Offline' : 'Online'}</b>?`,
+					okHander: async () => {
+						networkService.forceOnlineValue(!onlineStatus)
+						toast(
+							`Online status set to: <b>${onlineStatus ? 'Online' : 'Offline'}</b>`,
+							onlineStatus ? 'success' : 'danger'
+						)
+					},
+				})
+			}}
+		>
+			<ion-label color={onlineStatus ? 'success' : 'danger'}
+				><b>{onlineStatus ? 'Online' : 'Offline'}</b></ion-label
+			>
+		</ion-item>
+		<!-- <div id="online-status">
+			<u>{onlineStatus ? "online" : "offline"}</u>
+		</div>
+		<br />&nbsp; -->
 	</ion-footer>
 </ion-menu>
 

@@ -13,6 +13,9 @@ export default class NetworkService {
           window.addEventListener('online', function(e) { 
             o.next(true);
           });
+          this.myInstance.forceOnlineValue = (value: boolean) => {
+            o.next(value);
+          }
         }    
         return this.myInstance;
     }
