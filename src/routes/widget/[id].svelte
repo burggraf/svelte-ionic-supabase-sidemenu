@@ -83,7 +83,7 @@
 			header: "Delete Widget",
 			message: "Are you sure?", 
 			okHander: async () => {
-				const { data, error } = await supabaseDataService.delete_widget(widget.id)
+				const { data, error } = await supabaseDataService.delete_widget(widget)
 				if (error) {
 					console.error("Error deleting widget", error)
 				} else {

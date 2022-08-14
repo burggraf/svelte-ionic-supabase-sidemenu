@@ -1,8 +1,8 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { loadingBox } from '$services/loadingMessage'
-import { BehaviorSubject } from 'rxjs';
 import NetworkService from '$services/network.service';
 import { toast } from '$services/toast';
+import { BehaviorSubject } from 'rxjs';
 
 const VITE_SUPABASE_URL: string = import.meta.env.VITE_SUPABASE_URL
 const VITE_SUPABASE_KEY: string = import.meta.env.VITE_SUPABASE_KEY
@@ -135,7 +135,12 @@ export default class SupabaseDataService {
       const queue = JSON.parse(localStorage.getItem('update-queue') || '[]');
       if (queue.length > 0) {
         const { functionName, table, record, timestamp } = queue.shift();
-        console.log('processQueue:', functionName, table, record, `timestamp: ${timestamp}`);
+        // console.log('processQueue:', functionName, table, record, `timestamp: ${timestamp}`);
+        if (functionName === 'saveRecord' || functionName === 'deleteRecord') {
+          const { status, data, error } = await this.checkRecordVersion(table, record);
+          // console.log('processQueue: checkRecordVersion:', 'table', table, 'record', record);
+          console.log(`function: ${functionName}:`, 'status', status, 'data', data, 'error', error);
+        }
         const { error } = await this[functionName](table, record);
         if (error) {
           console.error('error processing update queue', error);
@@ -156,6 +161,46 @@ export default class SupabaseDataService {
   /**********************************/
   /* generic save and delete record */
   /**********************************/
+  public async checkRecordVersion(table: string, record: any, fieldName: string = 'updated_at') {
+    if (isOnline) {
+      const { error:errorGettingCount, count } = 
+      await supabase.from(table)
+      .select(`id`, { count: 'exact' })
+      .eq('id', record.id);
+      if (errorGettingCount) {
+        console.error('checkRecordVersion getCount: error', errorGettingCount);
+        return { status: 'error', error: errorGettingCount };
+      } else {
+        if (count === 0) {
+          return {status: 'notFound', data: null, error: null}
+        } else if (count > 1) {
+          return {status: 'multipleFound', data: null, error: null}
+        }
+      }
+
+      const { data, error } = 
+      await supabase.from(table)
+      .select(`id, ${fieldName}`)
+      .eq('id', record.id)
+      .single();
+      // console.log('checkRecordVersion select got data, error', data, error);
+      if (error) {
+        return { status: 'error', data: null, error };
+      } else {
+        if (data && typeof data[fieldName] === typeof record[fieldName]) {
+          if (data[fieldName] === record[fieldName]) {
+            return { status: 'ok', data, error };
+          } else {
+            return { status: 'conflict', data, error };
+          }
+        } else {
+          return { status: 'error', data: null, error: `${fieldName} data missing or wrong type` };
+        }
+      }
+    } else {
+      return { status: 'offline', data: null, error: null };
+    }
+  }
 
   public async saveRecord(table: string, record: any) {
     if (isOnline) {
@@ -168,15 +213,15 @@ export default class SupabaseDataService {
       return { data: null, error: null };
     }    
   }
-  public async deleteRecord(table: string, id: string) {
+  public async deleteRecord(table: string, record: any) {
     if (isOnline) {
       const { data, error } = 
       await supabase.from(table)
       .delete()
-      .eq('id', id);
+      .eq('id', record.id);
       return { data, error };  
     } else {
-      this.queueUpdate('deleteRecord', table, id);
+      this.queueUpdate('deleteRecord', table, record);
       return { data: null, error: null };
     }
   }
@@ -230,8 +275,8 @@ export default class SupabaseDataService {
     const { data, error} = await this.saveRecord('widgets', widget);
     return { data, error };
   }
-  public async delete_widget(id: string) {
-    const { data, error} = await this.deleteRecord('widgets', id);
+  public async delete_widget(record: any) {
+    const { data, error} = await this.deleteRecord('widgets', record);
     return { data, error };
   }
 
