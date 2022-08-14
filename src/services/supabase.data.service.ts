@@ -140,6 +140,11 @@ export default class SupabaseDataService {
           const { status, data, error } = await this.checkRecordVersion(table, record);
           // console.log('processQueue: checkRecordVersion:', 'table', table, 'record', record);
           console.log(`function: ${functionName}:`, 'status', status, 'data', data, 'error', error);
+          if (status === 'conflict') {
+            console.log('conflict detected');
+            console.log('queued record:',record);
+            console.log('online record:',data);
+          }
         }
         const { error } = await this[functionName](table, record);
         if (error) {

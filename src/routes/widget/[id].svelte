@@ -20,8 +20,9 @@
 				description: '',
 				name: '',
 				price: 0,
-				created_at: new Date().toISOString(),
-				updated_at: new Date().toISOString(),
+				// replacing Z with +00:00 to make it match Postgres timestamptz format
+				created_at: new Date().toISOString().replace('Z', '+00:00'),
+				updated_at: new Date().toISOString().replace('Z', '+00:00'),
 			};
 			mode = 'edit'
 		} else {
