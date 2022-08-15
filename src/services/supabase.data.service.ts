@@ -1,12 +1,11 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { loadingBox } from '$services/loadingMessage'
 import NetworkService from '$services/network.service';
-import { toast } from '$services/toast';
+// import { toast } from '$services/toast';
 import { BehaviorSubject } from 'rxjs';
 
 const VITE_SUPABASE_URL: string = import.meta.env.VITE_SUPABASE_URL
 const VITE_SUPABASE_KEY: string = import.meta.env.VITE_SUPABASE_KEY
-
 
 let supabase: SupabaseClient;
 
@@ -341,7 +340,6 @@ export default class SupabaseDataService {
     }
     return { user, error };
   }
-
 }
 
 const supabaseDataService = SupabaseDataService.getInstance()
