@@ -6,9 +6,13 @@
 	const supabaseDataService = SupabaseDataService.getInstance()
 
 	let widgets: any[]; // = cache || []
-	const recordset = supabaseDataService.getDataSubscription('widgets').subscribe((recordset) => {
-		widgets = recordset;
-	})
+	const recordset = 
+		supabaseDataService
+		.getDataSubscription('widgets')
+		.subscribe((recordset) => {
+			widgets = recordset;
+		}
+	)
 
 	onDestroy(() => {
 		recordset.unsubscribe()
@@ -36,12 +40,11 @@
 	<ion-list>
 		{#if widgets && widgets.length }
 			{#each widgets as widget}
-				<!-- <ion-item href={$url("/widget/[id]",{id: widget.id})}> -->
 					<ion-item on:click={() => gotoWidget(widget.id)}>
 						{widget.name}
-					<ion-note slot="end">
-						{widget.price.toFixed(2)}
-					</ion-note>
+						<ion-note slot="end">
+							{widget.price.toFixed(2)}
+						</ion-note>
 				</ion-item>
 			{/each}
 		{:else}

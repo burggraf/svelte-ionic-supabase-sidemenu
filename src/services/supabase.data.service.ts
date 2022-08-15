@@ -12,6 +12,7 @@ let supabase: SupabaseClient;
 
 let isOnline: boolean = undefined; // unknown status
 const networkService = NetworkService.getInstance()
+let queueProcssingActive = false;
 
 export default class SupabaseDataService {
 	static myInstance:any = null;
@@ -143,7 +144,6 @@ export default class SupabaseDataService {
           if (status === 'conflict') {
             console.log('conflict detected');
             console.log('queued record:',record);
-            console.log('online record:',data);
           }
         }
         const { error } = await this[functionName](table, record);
@@ -160,6 +160,7 @@ export default class SupabaseDataService {
         }
       } else {
         console.log('processQueue: queue is empty');
+        queueProcssingActive = false;
       }
     }
   }
@@ -196,7 +197,17 @@ export default class SupabaseDataService {
           if (data[fieldName] === record[fieldName]) {
             return { status: 'ok', data, error };
           } else {
-            return { status: 'conflict', data, error };
+            console.log(`${fieldName} conflict detected, ${data[fieldName]} != ${record[fieldName]}`);
+            const { data:fulldata, error:fullerror } = 
+            await supabase.from(table)
+            .select(`*`)
+            .eq('id', record.id)
+            .single();
+            if (fullerror) {
+              return { status: 'conflict', data, error: fullerror };
+            } else {
+              return { status: 'conflict', data: fulldata, error: fullerror };
+            }
           }
         } else {
           return { status: 'error', data: null, error: `${fieldName} data missing or wrong type` };
@@ -338,6 +349,11 @@ networkService.online.subscribe((online: boolean) => {
   isOnline = online
   if (isOnline) {
     console.log('supabase: app came online -- process pending queue')
-    supabaseDataService.processQueue();
+    if (!queueProcssingActive) {
+      queueProcssingActive = true;
+      supabaseDataService.processQueue();
+    } else {
+      console.error('supabaseDataService: processQueue already active')
+    }
   }
 })
